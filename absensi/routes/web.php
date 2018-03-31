@@ -61,3 +61,9 @@ Route::post('addsubmenu/{id}', 'WebAdminController@PostAddSubmenu');
 Route::post('auth/register','WebAdminController@register');
 Route::post('auth/edituser','WebAdminController@edituser');
 Route::post('auth/delete','WebAdminController@deleteuser');
+
+//roles
+
+Route::get('roles', 'WebAdminController@getRoles');
+Route::get('roles/json', 'WebAdminController@rolesDataTB')->name('roles/json');
+Route::post('roles/edit', 'WebAdminController@editRoles');

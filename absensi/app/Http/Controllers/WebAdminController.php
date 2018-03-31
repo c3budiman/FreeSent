@@ -9,6 +9,7 @@ use App\submenu;
 use Excel;
 use Datatables;
 use App\User;
+use App\Role;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -162,22 +163,46 @@ class WebAdminController extends Controller
 
       //membuat response array, untuk di tampilkan menjadi json nantinya
       $response = array("success"=>"User Modified");
-      //endpoint api berdasarkan hasil dari response, jika berjalan lancar :
-      // 201, artinya konten berhasil dibuat, 200 success, 404 not found, 500 server error etc etc...
       return response()->json($response,201);
     }
 
     public function deleteuser(Request $request, User $user){
-
       $user = User::find($request->id);
       $user->delete();
       //membuat response array, untuk di tampilkan menjadi json nantinya
       $response = array("success"=>"User Deleted");
-      //endpoint api berdasarkan hasil dari response, jika berjalan lancar :
-      // 201, artinya konten berhasil dibuat, 200 success, 404 not found, 500 server error etc etc...
+
       return response()->json($response,200);
     }
 
 
+    public function getRoles() {
+      return view('roles.index');
+    }
+
+    public function rolesDataTB() {
+      return Datatables::of(Role::query())
+            ->addColumn('action', function ($datatb) {
+                return
+                '<button data-id="'.$datatb->id.'" data-namaRule="'.$datatb->namaRule.'"  class="edit-modal btn btn-xs btn-info" type="submit"><i class="fa fa-edit"></i> Ubah</button>';
+            })
+            ->make(true);
+    }
+
+    public function editRoles(Request $request, Role $role) {
+      //validasi request
+      $this->validate($request, [
+        'namaRule'      => 'required',
+      ]);
+
+      $roles = Role::find($request->id);
+      $roles->namaRule = strip_tags($request->namaRule);
+      $roles->save();
+
+      //membuat response array, untuk di tampilkan menjadi json nantinya
+      $response = array("success"=>"User Modified");
+
+      return response()->json($response,200);
+    }
 
 }

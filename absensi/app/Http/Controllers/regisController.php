@@ -12,6 +12,8 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use App\Transformers\UserTransformer;
+use Auth;
 
 class regisController extends Controller
 {
@@ -25,6 +27,7 @@ class regisController extends Controller
   {
     return view('FormRegister');
   }
+
 
   public function postRegis()
   {

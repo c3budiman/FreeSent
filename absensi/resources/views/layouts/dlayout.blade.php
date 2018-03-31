@@ -25,6 +25,7 @@
         <link href="{{URL::asset('plugins/sweet-alert/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- Bootstrap fileupload css -->
         <link href="{{URL::asset('plugins/bootstrap-fileupload/bootstrap-fileupload.css') }}" rel="stylesheet" />
+        @yield('css')
         <!-- Table Responsive css -->
         <link href="{{URL::asset('plugins/responsive-table/css/rwd-table.min.css') }}" rel="stylesheet" type="text/css" media="screen">
     </head>
@@ -36,7 +37,7 @@
                     <div class="topbar-left">
                         <a href="/" class="logo">
                             <span>
-                              
+
                                 <img src="{{ asset('images/logosimple.png')}}" alt="" height="40">
                             </span>
                             <i>

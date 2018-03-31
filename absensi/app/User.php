@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nama', 'email', 'password', 'avatar', 'roles_id',
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Authenticatable
     {
       return $this->belongsTo (Role::class,'roles_id');
     }
-    
+
     public function punyaRule($namaRule, $namaRule2)
     {
       if($this->role->namaRule == $namaRule || $this->role->namaRule == $namaRule2) {

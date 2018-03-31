@@ -31,28 +31,30 @@
                       <div class="tab-content">
                           <div class="tab-pane show active" id="home1">
                               <div class="card-box table-responsive">
-                                  <form action="#">
+                                  <form action="/sidebar/{{$sidebar->id}}" method="post">
+                                    {{ csrf_field() }}
                                       <div class="form-group">
                                           <label for="namasidebar">Nama Sidebar<span class="text-danger">*</span></label>
                                           <input type="text" name="nama" parsley-trigger="change" required value="{{$sidebar->nama}}" class="form-control">
                                       </div>
                                       <div class="form-group">
                                           <label for="emailAddress">Digunakan oleh : <span class="text-danger">*</span></label>
-                                          <select class="form-control" name="">
+                                          <select class="form-control" name="roles_id">
                                               @php $rolestable = DB::table('roles')->get(); @endphp
                                               <option value="{{$sidebar->kepunyaan}}">{{DB::table('roles')->where('id','=',$sidebar->kepunyaan)->get()->first()->namaRule}}</option>
-                                              @foreach ($rolestable as $roles) @continue($roles->id === $sidebar->kepunyaan)
+                                              @foreach ($rolestable as $roles)
+                                                @continue($roles->id === $sidebar->kepunyaan)
                                               <option value="{{$roles->id}}">{{$roles->namaRule}}</option>
                                               @endforeach
                                           </select>
                                       </div>
                                       <div class="form-group">
                                           <label for="pass1">Class CSS<span class="text-danger">*</span></label>
-                                          <input name="classcss" value="{{$sidebar->class_css}}" required class="form-control">
+                                          <input name="class_css" value="{{$sidebar->class_css}}" required class="form-control">
                                       </div>
                                       <div class="form-group">
                                           <label for="passWord2">Link/URL <span class="text-danger">*</span></label>
-                                          <input required class="form-control" value="{{$sidebar->link}}">
+                                          <input name="link" required class="form-control" value="{{$sidebar->link}}">
                                       </div>
 
                                       <div class="form-group text-right m-b-0">
@@ -61,6 +63,7 @@
                                           </button>
                                           <a href="/sidebarsettings" class="btn btn-light waves-effect m-l-5">Cancel</a>
                                       </div>
+                                      <input type="hidden" name="_method" value="PUT">
                                   </form>
                               </div>
                           </div>

@@ -43,27 +43,28 @@ Route::put('editprofile', 'authController@UpdateProfile');
 */
 // Sidebar Part
 Route::get('sidebarsettings', 'WebAdminController@getSidebarSetting');
-Route::get('addsidebar', 'WebAdminController@addsidebar');
-Route::post('addsidebar', 'WebAdminController@PostAddSidebar');
+Route::post('addsidebar', 'WebAdminController@tambahSidebarAjax');
 Route::get('sidebar/json', 'WebAdminController@sidebarDataTB')->name('sidebar/json');
 Route::get('sidebar/{id}/edit', 'WebAdminController@editSidebar');
-Route::get('user/json', 'WebAdminController@userDataTB')->name('user/json');
-Route::get('manageuser', 'WebAdminController@manageuser');
+Route::post('sidebar/delete', 'WebAdminController@deleteSidebar');
 Route::get('submenu/json/{id}', 'WebAdminController@submenuDataTB')->name('submenu/json/{id}');
-Route::get('addsubmenu/withid/{id}', 'WebAdminController@addsubmenu');
+// Route::get('addsubmenu/withid/{id}', 'WebAdminController@addsubmenu');
 Route::put('sidebar/{id}', 'WebAdminController@updateSidebar');
-Route::get('addsubmenu/withid/{id}', 'WebAdminController@getAddSubMenu');
-Route::post('addsubmenu/{id}', 'WebAdminController@PostAddSubmenu');
+Route::post('addsubmenu', 'WebAdminController@PostAddSubmenu');
+Route::post('deletesubmenu', 'WebAdminController@deleteSubmenu');
+Route::post('editsubmenu', 'WebAdminController@editsubmenu');
 //todo for sidebar : edit submenu, delete sub menu, delete sidebar, delete
 
 
-//User SPA ajax part :
+//User SPA get and ajax part :
+Route::get('user/json', 'WebAdminController@userDataTB')->name('user/json');
+Route::get('manageuser', 'WebAdminController@manageuser');
 Route::post('auth/register','WebAdminController@register');
 Route::post('auth/edituser','WebAdminController@edituser');
 Route::post('auth/delete','WebAdminController@deleteuser');
 
 //roles
-
 Route::get('roles', 'WebAdminController@getRoles');
 Route::get('roles/json', 'WebAdminController@rolesDataTB')->name('roles/json');
 Route::post('roles/edit', 'WebAdminController@editRoles');
+//

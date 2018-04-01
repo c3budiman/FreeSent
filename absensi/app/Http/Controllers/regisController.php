@@ -31,7 +31,7 @@ class regisController extends Controller
 
   public function postRegis()
   {
-    $rolesnya = DB::table('roles')->select('id')->where('namaRule', '=', 'AdminWeb')->first()->id;
+    //this one will be useless once an account has been created....
     $emailexist = DB::table('users')->where('email','=',Input::get('email'))->first();
     if (Input::get('email') == null || Input::get('nama') == null || Input::get('password') == null) {
       return Redirect::back()->withErrors(['Jangan Ada Field yg kosong!']);
@@ -45,7 +45,7 @@ class regisController extends Controller
       $user->nama = strip_tags(Input::get('nama'));
       $user->avatar = strip_tags(Input::get('avatar'));
       $user->password = bcrypt(Input::get('password'));
-      $user->roles_id = $rolesnya;
+      $user->roles_id = 1;
 
       $user->save();
       return redirect('/')->with('status', 'Anda Telah berhasil mendaftar!');

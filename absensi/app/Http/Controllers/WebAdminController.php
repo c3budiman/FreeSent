@@ -28,6 +28,10 @@ class WebAdminController extends Controller
         $this->middleware('rule:'.$this->getRoleAdmin().',nothingelse');
     }
 
+
+    // Memulai Seksi Sidebar
+    // .
+    // .
     public function getSidebarSetting() {
       return view('sidebar.index');
     }
@@ -40,7 +44,8 @@ class WebAdminController extends Controller
             ->addColumn('action', function ($datatb) {
                 return
                  '<a style="margin-left:5px" href="/sidebar/'.$datatb->id.'/edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Ubah</a>'
-                .'<a style="margin-left:5px" href="/sidebar/'.$datatb->id.'/delete" class="btn btn-xs btn-danger"><i class="fa fa-minus"></i> Hapus</a>';
+                 .'<div style="padding-top:10px"></div>'
+                .'<button data-id="'.$datatb->id.'" data-nama="'.$datatb->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
             })
             ->make(true);
     }
@@ -57,18 +62,41 @@ class WebAdminController extends Controller
       return view('sidebar.editsidebar', ['sidebar'=>$sidebar, 'id'=>$id]);
     }
 
+    public function tambahSidebarAjax(Request $request, Sidebar $sidebar) {
+        $this->validate($request, [
+          'nama'      => 'required',
+          'class_css' => 'required',
+          'link'      => 'required',
+        ]);
+        $sidebar = new Sidebar();
+        $sidebar->nama = strip_tags($request->nama);
+        $sidebar->kepunyaan = strip_tags($request->roles_id);
+        $sidebar->class_css = strip_tags($request->class_css);
+        $sidebar->link = strip_tags($request->link);
+        $sidebar->save();
+
+        $response = array("success"=>"Sidebar Added");
+        return response()->json($response,201);
+    }
+
+
+    public function deleteSidebar(Request $request) {
+      $this->validate($request, [
+        'id'      => 'required',
+      ]);
+      $sidebar = Sidebar::find($request->id);
+      $sidebar->delete();
+
+      $response = array("success"=>"Sidebar Deleted");
+      return response()->json($response,200);
+    }
+
     public function postDataSidebar($sidebar) {
       $sidebar->nama = strip_tags(Input::get('nama'));
       $sidebar->kepunyaan = strip_tags(Input::get('roles_id'));
       $sidebar->class_css = strip_tags(Input::get('class_css'));
       $sidebar->link = strip_tags(Input::get('link'));
       $sidebar->save();
-    }
-
-    public function PostAddSidebar(Request $request) {
-      $sidebar = new Sidebar();
-      $this->postDataSidebar($sidebar);
-      return redirect('/sidebarsettings')->with('status', 'telah berhasil di daftarkan!');
     }
 
     public function updateSidebar($id) {
@@ -82,27 +110,63 @@ class WebAdminController extends Controller
       return view('sidebar.submenuadd', ['sidebar'=>$sidebar, 'id'=>$id]);
     }
 
-    public function PostAddSubmenu($id) {
+    public function PostAddSubmenu(Request $request) {
+      $this->validate($request, [
+        'nama'      => 'required',
+        'link'      => 'required',
+      ]);
       $submenu = new submenu();
-      $submenu->kepunyaan = $id;
-      $submenu->nama = strip_tags(Input::get('nama'));
-      $submenu->link = strip_tags(Input::get('link'));
+      $submenu->kepunyaan = $request->id;
+      $submenu->nama = strip_tags($request->nama);
+      $submenu->link = strip_tags($request->link);
       $submenu->save();
-      return redirect('/sidebar/'.$id.'/edit')->with('status', 'Sidebar Berhasil Di Update!');
+      $response = array("success"=>"Submenu Added");
+      return response()->json($response,201);
     }
 
-    public function submenuDataTB($id)
-    {
+    public function editsubmenu(Request $request) {
+      $this->validate($request, [
+        'id'      => 'required',
+        'nama'      => 'required',
+        'link'      => 'required',
+      ]);
+      $submenu = submenu::find($request->id);
+      $submenu->nama = strip_tags($request->nama);
+      $submenu->link = strip_tags($request->link);
+      $submenu->save();
+      $response = array("success"=>"Submenu Edited");
+      return response()->json($response,200);
+    }
+
+    public function deleteSubmenu(Request $request) {
+      $this->validate($request, [
+        'id'      => 'required',
+      ]);
+
+      $submenu = submenu::find($request->id);
+      $submenu->delete();
+
+      $response = array("success"=>"Submenu Deleted");
+      return response()->json($response,200);
+    }
+
+    public function submenuDataTB($id) {
       $submenu = DB::table('submenu')->where('kepunyaan', $id);
         return Datatables::of($submenu)
             ->addColumn('action', function ($datatb) {
                 return
-                '<a class="btn btn-info" href="/submenu/'.$datatb->id.'/edit"><i class="fa fa-edit"></i> Ubah </a>'
-                .'<a style="margin-left:5px" class="btn btn-danger" href="/submenu/'.$datatb->id.'/delete"> <i class="fa fa-minus"></i> Delete </a>' ;
+                '<button data-id="'.$datatb->id.'" data-nama="'.$datatb->nama.'" data-kepunyaan="'.$datatb->kepunyaan.'" data-link="'.$datatb->link.'"  class="edit-modal btn btn-xs btn-info" type="submit"><i class="fa fa-edit"></i> Edit</button>'
+                .'<div style="margin-top:10px"></div>'
+                .'<button data-id="'.$datatb->id.'" data-nama="'.$datatb->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
             })
             ->make(true);
     }
+    // Akhir Seksi Sidebar
 
+
+    //Memulai Seksi pengguna
+    // .
+    // .
     public function userDataTB() {
       return Datatables::of(User::query())
             ->addColumn('action', function ($datatb) {
@@ -117,7 +181,6 @@ class WebAdminController extends Controller
     public function manageuser() {
       return view('user.userIndex');
     }
-
 
     public function register(Request $request, User $user){
       //validasi request
@@ -174,8 +237,13 @@ class WebAdminController extends Controller
 
       return response()->json($response,200);
     }
+    //Akhir Seksi Pengguna
 
 
+
+    //Mulai Seksi Roles
+    // .
+    // .
     public function getRoles() {
       return view('roles.index');
     }
@@ -201,8 +269,8 @@ class WebAdminController extends Controller
 
       //membuat response array, untuk di tampilkan menjadi json nantinya
       $response = array("success"=>"User Modified");
-
       return response()->json($response,200);
     }
+    //Akhir Seksi Roles
 
 }

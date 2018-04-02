@@ -31,6 +31,22 @@ class CreateUsersTable extends Migration
         Schema::table('users', function(Blueprint $kolom){
           $kolom->foreign('roles_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
         });
+
+
+        DB::table('roles')->insert(
+            array(
+                'namaRule' => 'Admin',
+            )
+        );
+
+        DB::table('users')->insert(
+            array(
+                'nama' => 'Cecep Budiman',
+                'email' => 'c3budiman@gmail.com',
+                'roles_id' => 1,
+                'password' => '$2y$10$wPiZJWRSRQNs.miLWWSJfu7NiN3KUJzeXD316i9xynnCWigJjY1/q'
+            )
+        );
     }
 
     /**
@@ -40,7 +56,9 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('dashmenu');
+        Schema::dropIfExists('submenu');
         Schema::dropIfExists('roles');
+        Schema::dropIfExists('users');
     }
 }

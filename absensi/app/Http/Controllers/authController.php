@@ -31,9 +31,9 @@ class authController extends Controller
     if (Auth::User()->roles_id == 1) {
       return view('dashboard.DashAdmin');
     } elseif (Auth::User()->roles_id == 2) {
-      return view('dashboard.DashSekdos');
+      return view('dashboard.DashManajer');
     } else {
-      return view('dashboard.DashDosen');
+      return 'hai pengguna! saat ini belom ada view nya karena yg buat males nambahin :V buat logout ketik /logout di akhiran lalu enter';
     }
   }
 

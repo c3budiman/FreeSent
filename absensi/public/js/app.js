@@ -43263,9 +43263,7 @@ var staticRenderFns = [
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "panel-body" }, [
-              _vm._v(
-                "\n                    I'm an example component! apakah di build lagi\n                "
-              )
+              _vm._v("\n                    aku coba ubah\n                ")
             ])
           ])
         ])

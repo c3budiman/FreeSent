@@ -53,6 +53,7 @@ Route::put('sidebar/{id}', 'WebAdminController@updateSidebar');
 Route::post('addsubmenu', 'WebAdminController@PostAddSubmenu');
 Route::post('deletesubmenu', 'WebAdminController@deleteSubmenu');
 Route::post('editsubmenu', 'WebAdminController@editsubmenu');
+Route::get('logodanfavicon', 'WebAdminController@logoweb');
 //todo for sidebar : edit submenu, delete sub menu, delete sidebar, delete
 
 

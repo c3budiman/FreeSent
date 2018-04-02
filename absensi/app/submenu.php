@@ -12,6 +12,6 @@ class submenu extends Model
 
   public function sidebar()
   {
-    return $this->belongsTo (Sidebar::class,'roles_id');
+    return $this->belongsTo(Sidebar::class,'roles_id');
   }
 }

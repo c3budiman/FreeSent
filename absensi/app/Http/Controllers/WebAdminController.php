@@ -273,4 +273,9 @@ class WebAdminController extends Controller
     }
     //Akhir Seksi Roles
 
+    //Seksi Logo
+    public function logoweb(){
+      return view('logo.logo');
+    }
+
 }

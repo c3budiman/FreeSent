@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('nama');
             $table->string('email')->unique();
             $table->unsignedInteger('roles_id')->nullable();
+            $table->string('avatar');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -33,9 +34,13 @@ class CreateUsersTable extends Migration
         });
 
         DB::table('roles')->insert(
-          ['namaRule' => 'Admin'],
-          ['namaRule' => 'Manajer'],
-          ['namaRule' => 'Pegawai']
+          ['id' => 1, 'namaRule' => 'Admin']
+        );
+        DB::table('roles')->insert(
+          ['id' => 2, 'namaRule' => 'Manajer']
+        );
+        DB::table('roles')->insert(
+          ['id' => 3, 'namaRule' => 'Pengguna']
         );
 
         DB::table('users')->insert(
@@ -43,6 +48,7 @@ class CreateUsersTable extends Migration
                 'nama' => 'Cecep Budiman',
                 'email' => 'c3budiman@gmail.com',
                 'roles_id' => 1,
+                'avatar' => '/images/avatar.png',
                 'password' => '$2y$10$wPiZJWRSRQNs.miLWWSJfu7NiN3KUJzeXD316i9xynnCWigJjY1/q'
             )
         );

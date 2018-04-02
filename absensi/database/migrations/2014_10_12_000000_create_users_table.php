@@ -32,11 +32,10 @@ class CreateUsersTable extends Migration
           $kolom->foreign('roles_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
         });
 
-
         DB::table('roles')->insert(
-            array(
-                'namaRule' => 'Admin',
-            )
+          ['namaRule' => 'Admin'],
+          ['namaRule' => 'Manajer'],
+          ['namaRule' => 'Pegawai']
         );
 
         DB::table('users')->insert(
@@ -58,7 +57,7 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('dashmenu');
         Schema::dropIfExists('submenu');
-        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('roles');
     }
 }

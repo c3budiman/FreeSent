@@ -13,7 +13,7 @@
                   Anda dapat mengganti logo situs yang digunakan disini
               </p>
 
-              <form enctype="multipart/form-data" action="{{url(action("authController@UpdateProfile"))}}" method="post" class="form-horizontal ">
+              <form enctype="multipart/form-data" action="{{url(action("WebAdminController@postImageLogo"))}}" method="post" class="form-horizontal ">
                   {{ csrf_field() }}
                   <div class="form-group row">
                       <label class="col-3 col-form-label">Logo Situs</label>
@@ -36,8 +36,16 @@
                                  </button>
                               </div>
                           </div>
+                          <div class="form-group row">
+                              <div class="col-12">
+                                  <div class="pull-right">
+                                      <button type="submit" name="button" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                                  </div>
+                              </div>
+                          </div>
                       </div>
                   </div>
+
                   <hr>
                   <div class="form-group row">
                       <label class="col-3 col-form-label">Favicon Situs</label>
@@ -56,7 +64,7 @@
                                   <button type="button" class="btn btn-custom btn-file">
                                    <span class="fileupload-new"><i class="fa fa-paper-clip"></i> Pilih Gambar</span>
                                    <span class="fileupload-exists"><i class="fa fa-undo"></i> Ganti</span>
-                                   <input accept="image/*" type="file" class="btn-light" name="tes" id="exampleInputFile">
+                                   <input accept="image/*" type="file" class="btn-light" name="tes2" id="exampleInputFile">
                                  </button>
                               </div>
                           </div>
@@ -75,4 +83,10 @@
       </div>
   </div>
   <!--  end row -->
+@endsection
+
+@section('jstambahan')
+  <!-- Bootstrap fileupload js -->
+  <script src="plugins/bootstrap-fileupload/bootstrap-fileupload.js"></script>
+
 @endsection

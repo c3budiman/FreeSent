@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateDaftarPresensisTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+      //untuk daftar presensi dari karyawan
+        Schema::create('daftar_presensis', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('id_manajer')->nullable();
+            $table->unsignedInteger('id_karyawan')->nullable();
+            $table->string('lokasi_absen');
+            $table->timestamp('waktu_absen')->nullable();
+            //pas login waktu logout null ketika logout update waktu logout dan durasi.
+            $table->timestamp('waktu_logout')->nullable();
+            $table->timestamp('durasi_pekerjaan')->nullable();
+            $table->string('report');
+            $table->string('report_img');
+            $table->timestamps();
+        });
+
+        Schema::table('daftar_presensis', function(Blueprint $kolom){
+          $kolom->foreign('id_manajer')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+          $kolom->foreign('id_karyawan')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('daftar_presensis');
+    }
+}

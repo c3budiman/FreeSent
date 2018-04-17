@@ -2,6 +2,9 @@
 Route::get('tesvue', function () {
     return view('tesvue');
 });
+Route::get('phpinfo', function () {
+    echo phpinfo();
+});
 
 
 /*
@@ -56,7 +59,6 @@ Route::post('editsubmenu', 'WebAdminController@editsubmenu');
 Route::get('logodanfavicon', 'WebAdminController@logoweb');
 //todo for sidebar : edit submenu, delete sub menu, delete sidebar, delete
 
-
 //User SPA get and ajax part :
 Route::get('user/json', 'WebAdminController@userDataTB')->name('user/json');
 Route::get('manageuser', 'WebAdminController@manageuser');
@@ -69,3 +71,5 @@ Route::get('roles', 'WebAdminController@getRoles');
 Route::get('roles/json', 'WebAdminController@rolesDataTB')->name('roles/json');
 Route::post('roles/edit', 'WebAdminController@editRoles');
 //
+
+Route::put('logodanfavicon', 'WebAdminController@postImageLogo');

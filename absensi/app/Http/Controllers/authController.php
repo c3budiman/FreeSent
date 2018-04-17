@@ -64,6 +64,7 @@ class authController extends Controller
           $file_lama = str_replace("storage","public",Auth::User()->avatar);
           Storage::delete($file_lama);
         }
+        
         //update db
         $users = Auth::user();
         $users->email = strip_tags(Input::get('email'));

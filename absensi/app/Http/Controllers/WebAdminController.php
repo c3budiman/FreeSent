@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Transformers\UserTransformer;
+use Storage;
 
 class WebAdminController extends Controller
 {
@@ -257,6 +258,10 @@ class WebAdminController extends Controller
             ->make(true);
     }
 
+    public function UploadImage() {
+
+    }
+
     public function editRoles(Request $request, Role $role) {
       //validasi request
       $this->validate($request, [
@@ -276,6 +281,41 @@ class WebAdminController extends Controller
     //Seksi Logo
     public function logoweb(){
       return view('logo.logo');
+    }
+
+
+    public function postImageLogo(Request $request) {
+      if ($request->hasFile('tes')) {
+        $namafile = $request->file('tes')->getClientOriginalName();
+        $ext = $request->file('tes')->getClientOriginalExtension();
+        $lokasifileskr = '/images/'.$namafile;
+        // cek jika file sudah ada... deprecated
+        if(Storage::has("/images/".$namafile)) {
+          return Redirect::back()->withErrors(['File sudah ada, coba rename file!']);
+        }
+        // yg paling penting cek extension, no php allowed
+        if ($ext == "png" || $ext == "jpg") {
+          //store
+          $destinasi = public_path('/images/');
+          $proses = $request->file('tes')->move($destinasi,$namafile);
+          //delete foto sebelumnya jika ada....
+          $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
+          if ($logo != null || $logo != "") {
+            $file_lama = public_path($logo);
+            unlink($file_lama);
+          }
+
+          //update db
+          dd($lokasifileskr);
+          return redirect('editprofile')->with('status', 'Profil Berhasil Di Update!');
+        } else {
+          return Redirect::back()->withErrors(['format file salah, tidak bisa diupload']);
+        }
+      } elseif ($request->hasFile('tes2')) {
+        # code...
+      } else {
+        # code...
+      }
     }
 
 }

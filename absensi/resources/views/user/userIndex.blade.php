@@ -1,3 +1,6 @@
+@php
+  $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
+@endphp
 @extends('layouts.dlayout')
 
 @section('title')
@@ -127,7 +130,7 @@
               <div class="modal-body">
                   <h2 class="text-uppercase text-center m-b-30">
                       <a href="index.html" class="text-success">
-                          <span><img src="{{ asset('images/logosimple.png')}}" alt="" height="40"></span>
+                          <span><img src="{{ asset($logo)}}" alt="" height="40"></span>
                       </a>
                   </h2>
 

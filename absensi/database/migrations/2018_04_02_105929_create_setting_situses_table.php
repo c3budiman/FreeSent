@@ -11,6 +11,7 @@ class CreateSettingSitusesTable extends Migration
         Schema::create('setting_situses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('namaSitus');
+            $table->string('slogan');
             $table->string('favicon');
             $table->string('logo');
             $table->string('alamatSitus');
@@ -18,7 +19,7 @@ class CreateSettingSitusesTable extends Migration
         });
 
         DB::table('setting_situses')->insert([
-            ['namaSitus' => 'FreeSent', 'favicon' => '/images/favicon.png', 'logo' => '/images/logosimple.png', 'alamatSitus' => 'www.ka01.devku.web.id'],
+            ['namaSitus' => 'FreeSent', 'slogan' => 'Kemudahan Absen, kini bisa dilakukan secara daring melalui segala jenis perangkat.' , 'favicon' => '/images/favicon.png', 'logo' => '/images/logofreesentsimple.png', 'alamatSitus' => 'www.ka01.devku.web.id'],
         ]);
     }
 

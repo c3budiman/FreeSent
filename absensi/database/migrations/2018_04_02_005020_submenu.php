@@ -31,6 +31,20 @@ class Submenu extends Migration
               'link' => '/sidebarsettings'
           )
       );
+      DB::table('submenu')->insert(
+          array(
+              'kepunyaan' => 4,
+              'nama' => 'Logo dan Favicon',
+              'link' => '/logodanfavicon'
+          )
+      );
+      DB::table('submenu')->insert(
+          array(
+              'kepunyaan' => 4,
+              'nama' => 'Judul dan Slogan',
+              'link' => '/juduldanslogan'
+          )
+      );
     }
 
     /**

@@ -1,4 +1,7 @@
-
+@php
+  $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
+  $favicon =DB::table('setting_situses')->where('id','=','1')->get()->first()->favicon;
+@endphp
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="images/favicon.png">
+        <link rel="shortcut icon" href="{{ asset($favicon)}}">
         <script src="{{ URL::asset('assets/js/jquery.min.js') }}"></script>
         <!-- App css -->
         <link href="{{URL::asset('plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
@@ -37,11 +40,10 @@
                     <div class="topbar-left">
                         <a href="/" class="logo">
                             <span>
-
-                                <img src="{{ asset('images/logosimple.png')}}" alt="" height="40">
+                                <img src="{{ asset($logo)}}" alt="" height="40">
                             </span>
                             <i>
-                                <img src="{{ asset('images/logosimple.png')}}" alt="" height="28">
+                                <img src="{{ asset($logo)}}" alt="" height="28">
                             </i>
                         </a>
                     </div>

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\Transformers\UserTransformer;
+use App\SettingSitus;
 use Storage;
 
 class WebAdminController extends Controller
@@ -280,7 +281,7 @@ class WebAdminController extends Controller
 
     //Seksi Logo
     public function logoweb(){
-      return view('logo.logo');
+      return view('situs.logo');
     }
 
 
@@ -289,33 +290,66 @@ class WebAdminController extends Controller
         $namafile = $request->file('tes')->getClientOriginalName();
         $ext = $request->file('tes')->getClientOriginalExtension();
         $lokasifileskr = '/images/'.$namafile;
-        // cek jika file sudah ada... deprecated
-        if(Storage::has("/images/".$namafile)) {
-          return Redirect::back()->withErrors(['File sudah ada, coba rename file!']);
-        }
+
         // yg paling penting cek extension, no php allowed
         if ($ext == "png" || $ext == "jpg") {
           //store
-          $destinasi = public_path('/images/');
+          $destinasi = public_path('images/');
+          // dd($destinasi);
           $proses = $request->file('tes')->move($destinasi,$namafile);
           //delete foto sebelumnya jika ada....
           $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
-          if ($logo != null || $logo != "") {
-            $file_lama = public_path($logo);
-            unlink($file_lama);
-          }
+          // if ($logo != null || $logo != "") {
+          //   $file_lama = public_path($logo);
+          //   unlink($file_lama);
+          // }
 
           //update db
-          dd($lokasifileskr);
-          return redirect('editprofile')->with('status', 'Profil Berhasil Di Update!');
+          $logo = SettingSitus::find('1');
+          $logo->logo = $lokasifileskr;
+          $logo->save();
+          return redirect('logodanfavicon')->with('status', 'Logo Berhasil Di Update!');
         } else {
           return Redirect::back()->withErrors(['format file salah, tidak bisa diupload']);
         }
       } elseif ($request->hasFile('tes2')) {
-        # code...
-      } else {
-        # code...
+        $namafile = $request->file('tes2')->getClientOriginalName();
+        $ext = $request->file('tes2')->getClientOriginalExtension();
+        $lokasifileskr = '/images/'.$namafile;
+        // dd($namafile);
+        // yg paling penting cek extension, no php allowed
+        if ($ext == "png" || $ext == "jpg") {
+          //store
+          $destinasi = public_path('images/');
+           // dd($destinasi);
+          $proses = $request->file('tes2')->move($destinasi,$namafile);
+          //delete foto sebelumnya jika ada....
+          $favicon = DB::table('setting_situses')->where('id','=','1')->get()->first()->favicon;
+          if ($favicon != null || $favicon != "") {
+            $file_lama = public_path($favicon);
+            unlink($file_lama);
+          }
+          //update db
+          $favicon = SettingSitus::find('1');
+          $favicon->favicon = $lokasifileskr;
+          $favicon->save();
+          return redirect('logodanfavicon')->with('status', 'Favicon Berhasil Di Update!');
+        } else {
+          return Redirect::back()->withErrors(['format file salah, tidak bisa diupload']);
+        }
       }
+    }
+
+    public function judul(){
+      return view('situs.judul');
+    }
+
+    public function updateJudulDanSlogan(Request $request) {
+      $settingsitus = SettingSitus::find('1');
+      $settingsitus->namaSitus = strip_tags($request->judul);
+      $settingsitus->slogan = strip_tags($request->slogan);
+      $settingsitus->save();
+      return redirect('juduldanslogan')->with('status', 'Judul dan/atau Slogan Berhasil Di Update!');
     }
 
 }

@@ -57,7 +57,9 @@ Route::post('addsubmenu', 'WebAdminController@PostAddSubmenu');
 Route::post('deletesubmenu', 'WebAdminController@deleteSubmenu');
 Route::post('editsubmenu', 'WebAdminController@editsubmenu');
 Route::get('logodanfavicon', 'WebAdminController@logoweb');
-//todo for sidebar : edit submenu, delete sub menu, delete sidebar, delete
+Route::get('juduldanslogan', 'WebAdminController@judul');
+Route::put('juduldanslogan', 'WebAdminController@updateJudulDanSlogan');
+//todo setting situses
 
 //User SPA get and ajax part :
 Route::get('user/json', 'WebAdminController@userDataTB')->name('user/json');

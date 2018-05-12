@@ -29,8 +29,10 @@
         <!-- Bootstrap fileupload css -->
         <link href="{{URL::asset('plugins/bootstrap-fileupload/bootstrap-fileupload.css') }}" rel="stylesheet" />
         @yield('css')
+        @yield('csstambahan')
         <!-- Table Responsive css -->
         <link href="{{URL::asset('plugins/responsive-table/css/rwd-table.min.css') }}" rel="stylesheet" type="text/css" media="screen">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
         <div id="wrapper">
@@ -124,12 +126,7 @@
                                     </a>
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fi-cog"></i> <span>Pengaturan</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <a href="/support" class="dropdown-item notify-item">
                                         <i class="fi-help"></i> <span>Support</span>
                                     </a>
 

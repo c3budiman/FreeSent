@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\karyawanList;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,10 +27,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function manajer()
+    {
+      return $this->hasMany(karyawanList::class);
+    }
 
     public function role()
     {
-      return $this->belongsTo (Role::class,'roles_id');
+      return $this->belongsTo(Role::class,'roles_id');
     }
 
     public function punyaRule($namaRule, $namaRule2)

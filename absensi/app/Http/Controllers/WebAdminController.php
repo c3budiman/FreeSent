@@ -307,6 +307,7 @@ class WebAdminController extends Controller
           //update db
           $logo = SettingSitus::find('1');
           $logo->logo = $lokasifileskr;
+          
           $logo->save();
           return redirect('logodanfavicon')->with('status', 'Logo Berhasil Di Update!');
         } else {

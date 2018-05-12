@@ -29,7 +29,10 @@ class Sidebar extends Migration
           ['kepunyaan' => 1, 'class_css' => 'dripicons-home', 'nama' => 'Home', 'link' => '/'],
           ['kepunyaan' => 1, 'class_css' => 'dripicons-lock', 'nama' => 'Roles', 'link' => '/roles'],
           ['kepunyaan' => 1, 'class_css' => 'dripicons-user-group', 'nama' => 'Pengguna', 'link' => '/manageuser'],
-          ['kepunyaan' => 1, 'class_css' => 'dripicons-device-desktop', 'nama' => 'Website', 'link' => '/manageweb']
+          ['kepunyaan' => 1, 'class_css' => 'dripicons-device-desktop', 'nama' => 'Website', 'link' => '/manageweb'],
+          ['kepunyaan' => 2, 'class_css' => 'dripicons-user-group', 'nama' => 'Karyawan', 'link' => '/karyawan'],
+          ['kepunyaan' => 2, 'class_css' => 'fa fa-address-card-o', 'nama' => 'Tabel Presensi', 'link' => '/presensi'],
+          ['kepunyaan' => 3, 'class_css' => 'fa fa-address-card-o', 'nama' => 'Rekap Presensi', 'link' => '/rekap']
       ]);
     }
 

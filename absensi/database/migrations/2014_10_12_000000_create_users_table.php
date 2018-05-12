@@ -52,6 +52,16 @@ class CreateUsersTable extends Migration
                 'password' => '$2y$10$wPiZJWRSRQNs.miLWWSJfu7NiN3KUJzeXD316i9xynnCWigJjY1/q'
             )
         );
+
+        DB::table('users')->insert(
+            array(
+                'nama' => 'Manajer',
+                'email' => 'tesmanajer@gmail.com',
+                'roles_id' => 2,
+                'avatar' => '/images/avatar.png',
+                'password' => '$2y$10$gZFgFXNoBGFOZloaXT/SguF39RTgzLMMiBm68/GTysFJ4ajQmk9vy'
+            )
+        );
     }
 
     /**

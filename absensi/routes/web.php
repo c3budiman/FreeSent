@@ -73,5 +73,12 @@ Route::get('roles', 'WebAdminController@getRoles');
 Route::get('roles/json', 'WebAdminController@rolesDataTB')->name('roles/json');
 Route::post('roles/edit', 'WebAdminController@editRoles');
 //
-
 Route::put('logodanfavicon', 'WebAdminController@postImageLogo');
+
+
+Route::get('karyawan', 'manajerController@getKaryawan');
+Route::post('karyawanregistrasi', 'manajerController@postKaryawanBaru');
+Route::get('karyawan/json', 'manajerController@karyawanDataTB')->name('karyawan/json');
+
+Route::post('manager/karyawan/registerv2', 'manajerController@postKaryawanRegistered');
+Route::get('reporting', 'manajerController@getReport');

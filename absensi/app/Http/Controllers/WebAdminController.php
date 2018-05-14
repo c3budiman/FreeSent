@@ -7,7 +7,7 @@ use DB;
 use App\Sidebar;
 use App\submenu;
 use Excel;
-use Datatables;
+use DataTables;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Input;
@@ -39,7 +39,7 @@ class WebAdminController extends Controller
     }
 
     public function sidebarDataTB() {
-      return Datatables::of(Sidebar::query())
+      return DataTables::of(Sidebar::query())
             ->addColumn('kepunyaan_roles', function($datatb) {
               return DB::table('roles')->where('id','=',$datatb->kepunyaan)->get()->first()->namaRule;
             })
@@ -80,7 +80,6 @@ class WebAdminController extends Controller
         $response = array("success"=>"Sidebar Added");
         return response()->json($response,201);
     }
-
 
     public function deleteSidebar(Request $request) {
       $this->validate($request, [
@@ -154,7 +153,7 @@ class WebAdminController extends Controller
 
     public function submenuDataTB($id) {
       $submenu = DB::table('submenu')->where('kepunyaan', $id);
-        return Datatables::of($submenu)
+        return DataTables::of($submenu)
             ->addColumn('action', function ($datatb) {
                 return
                 '<button data-id="'.$datatb->id.'" data-nama="'.$datatb->nama.'" data-kepunyaan="'.$datatb->kepunyaan.'" data-link="'.$datatb->link.'"  class="edit-modal btn btn-xs btn-info" type="submit"><i class="fa fa-edit"></i> Edit</button>'
@@ -170,7 +169,7 @@ class WebAdminController extends Controller
     // .
     // .
     public function userDataTB() {
-      return Datatables::of(User::query())
+      return DataTables::of(User::query())
             ->addColumn('action', function ($datatb) {
                 return
                  '<button data-id="'.$datatb->id.'" data-nama="'.$datatb->nama.'" data-roles_id="'.$datatb->roles_id.'" data-email="'.$datatb->email.'" data-avatar="'.$datatb->avatar.'"  class="edit-modal btn btn-xs btn-info" type="submit"><i class="fa fa-edit"></i> Edit</button>'
@@ -251,7 +250,7 @@ class WebAdminController extends Controller
     }
 
     public function rolesDataTB() {
-      return Datatables::of(Role::query())
+      return DataTables::of(Role::query())
             ->addColumn('action', function ($datatb) {
                 return
                 '<button data-id="'.$datatb->id.'" data-namaRule="'.$datatb->namaRule.'"  class="edit-modal btn btn-xs btn-info" type="submit"><i class="fa fa-edit"></i> Ubah</button>';
@@ -307,7 +306,7 @@ class WebAdminController extends Controller
           //update db
           $logo = SettingSitus::find('1');
           $logo->logo = $lokasifileskr;
-          
+
           $logo->save();
           return redirect('logodanfavicon')->with('status', 'Logo Berhasil Di Update!');
         } else {

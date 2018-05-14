@@ -5,7 +5,7 @@
 @extends('layouts.dlayout');
 
 @section('title')
-  Atur Karyawan
+  Presensi Karyawan
 @endsection
 
 @section('csstambahan')
@@ -24,24 +24,12 @@
           <div class="row">
               <div class="col-12">
                   <div class="card-box table-responsive">
-                      <h4 class="m-t-0 header-title">Mengatur Karyawan</h4>
+                      <h4 class="m-t-0 header-title">Mengatur Presensi</h4>
                       <p class="text-muted font-14 m-b-30">
-                          Anda bisa menambah, mengedit dan menghapus karyawan anda dimenu ini.
+                          Anda bisa melihat detail presensi, mengedit dan menghapus presensi karyawan anda dimenu ini.
                       </p>
-                      <div class="pull-right" style="margin-top:-50px">
-                          <button type="button"  href="#" class="btn btn-xs btn-success" id="tambah"> <i class="fa fa-plus"></i> Tambah</button>
-                          <button type="button"  href="#" class="btn btn-xs btn-info" id="tambah2"> <i class="fa fa-plus"></i> Tambah Dari Yang Terdaftar</button>
-                      </div>
-                      <br>
-                      <table id="contoh" class="table table-bordered table-hover datatable">
-                          <thead>
-                              <tr>
-                                  <th>Nama Karyawan</th>
-                                  <th>Email</th>
-                                  <th>Action</th>
-                              </tr>
-                          </thead>
-                      </table>
+
+                      {!! $dataTable->table() !!}
                   </div>
               </div>
           </div>
@@ -167,6 +155,17 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+  @foreach ($beritanya as $berita)
+    @if (DB::table('tb_news')->where($berita->status,'=','1')->first()->status == '1')
+      Aktif
+    @else
+      Tidak Aktif
+    @endif
+  @endforeach
+
+{{ $aktif }}
+{!! $status !!}
 @endsection
 
 @section('js')
@@ -176,24 +175,32 @@
   <script src="../plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
   <script src="../plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
   <script src="../plugins/bootstrap-maxlength/bootstrap-maxlength.js" type="text/javascript"></script>
-
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
+  <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+  <script src="/vendor/datatables/buttons.server-side.js"></script>
+  {!! $dataTable->scripts() !!}
 
   <script type="text/javascript">
+
   $(document).ready(function() {
-    $('.datatable').DataTable({
-            "language": {
-            "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Indonesian-Alternative.json"
-        },
-        processing: true,
-        serverSide: true,
-        ajax: '{{ route('karyawan/json') }}',
-        columns: [
-            {data: 'nama', name: 'karyawannya.nama'},
-            {data: 'email', name: 'karyawannya.email'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    });
+    // $('.datatable').DataTable({
+    //         "language": {
+    //         "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Indonesian-Alternative.json"
+    //     },
+    //     processing: true,
+    //     serverSide: true,
+    //     ajax: '{{ route('presensi/json') }}',
+    //     columns: [
+    //         {data: 'id', name: 'id'},
+    //         {data: 'karyawan.email', name: 'karyawan.email'},
+    //         {data: 'karyawan.nama', name: 'karyawan.nama'},
+    //         {data: 'lokasi_absen', name: 'lokasi_absen'},
+    //         {data: 'waktu_absen', name: 'waktu_absen'},
+    //         {data: 'waktu_logout', name: 'waktu_logout'},
+    //         {data: 'durasi_pekerjaan', name: 'durasi_pekerjaan'},
+    //         {data: 'action', name: 'action', orderable: false, searchable: false},
+    //     ]
+    // });
 
     // ShowModals
       $(document).on('click', '#tambah', function() {

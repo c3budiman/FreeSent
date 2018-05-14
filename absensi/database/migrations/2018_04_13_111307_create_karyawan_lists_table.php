@@ -14,7 +14,7 @@ class CreateKaryawanListsTable extends Migration
     public function up()
     {
         Schema::create('data_karyawan', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_tabel');
             $table->unsignedInteger('id_karyawan')->nullable();
             $table->unsignedInteger('id_manajer')->nullable();
         });

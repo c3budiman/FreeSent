@@ -27,8 +27,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    public function manajer()
+
+    public function karyawanListnya()
+    {
+      return $this->hasMany(karyawanList::class);
+    }
+
+    public function daftarPresensinya()
     {
       return $this->hasMany(karyawanList::class);
     }

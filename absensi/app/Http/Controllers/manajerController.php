@@ -7,7 +7,7 @@ use DB;
 use App\Sidebar;
 use App\submenu;
 use Excel;
-use Datatables;
+use DataTables;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Input;
@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Redirect;
 use App\Transformers\UserTransformer;
 use App\SettingSitus;
 use App\karyawanList;
+use App\daftarPresensi;
 use Storage;
 use Auth;
+use Carbon\Carbon;
+use App\DataTables\presensiDataTable;
 
 
 class manajerController extends Controller
@@ -69,29 +72,71 @@ class manajerController extends Controller
 
 
   public function karyawanDataTB() {
-    $manajer = DB::table('data_karyawan')->where('id_manajer', Auth::User()->id);
-    // foreach ($manajer as $mnj) {
-    //    $user = DB::table('users')->where('id','=',$mnj->id_karyawan)->get()->first()->email;
-    //    echo $user;
-    // }
-    //$user = DB::table('users')->where('id','=',$manajer->id_karyawan);
-    // $user = DB::table('users')->where('name', 'pattern');
-    // $model = karyawanList::all();
-    //   return Datatables::of($model)
-    //         ->addColumn('nama', function (karyawanList $data) {
-    //           return $data->karyawannya->map(function($data2) {
-    //               return $data2->nama;
-    //           })->implode('<br>');
-    //         })
-    //       ->make(true);
-    // $model = karyawanList::with(['karyawannya', 'manajernya'])->get();
-
     $query = karyawanList::with('karyawannya')->where('id_manajer','=',Auth::User()->id);
-    return Datatables::of($query)
+    return DataTables::of($query)
     ->addColumn('action', function ($datatb) {
+      $id = $datatb->id_tabel;
         return
-         '<a style="margin-left:5px" href="/karyawan/'.$datatb->id.'/edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Ubah</a>';
+        '<button data-id="'.$id.'" data-nama="'.$datatb->karyawannya->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
     })
     ->make(true);
   }
+
+  public function postKaryawanRegistered(Request $request) {
+    $karyawanList = new karyawanList();
+    $karyawanList->id_manajer = Auth::User()->id;
+    $karyawanList->id_karyawan = $request->id_user;
+    $karyawanList->save();
+
+    $response = array("success"=>"User Added");
+    return response()->json($response,201);
+  }
+
+  public function deleteKaryawan(Request $request) {
+    $this->validate($request, [
+      'id_tabel'      => 'required',
+    ]);
+    $karyawan = karyawanList::where('id_tabel', $request->id_tabel)->delete();
+
+    $response = array("success"=>"Sidebar Deleted");
+    return response()->json($response,200);
+  }
+
+  public function getPresensi() {
+    return view('presensi.index');
+  }
+
+  public function presensiManajerDataTB() {
+    $query = daftarPresensi::with('karyawan')->where('id_manajer','=',Auth::User()->id);
+    return DataTables::of($query)
+    ->addColumn('action', function ($datatb) {
+      $id = $datatb->id_tabel;
+        return
+        '<button data-id="'.$id.'" data-nama="'.$datatb->karyawan->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
+    })
+    ->editColumn('waktu_absen', function ($datatb) {
+        return $datatb->waktu_absen ? with(new Carbon($datatb->waktu_absen))->format('d/m/Y h:i:s a') : '';
+    })
+    ->editColumn('waktu_logout', function ($datatb) {
+        return $datatb->waktu_logout ? with(new Carbon($datatb->waktu_logout))->format('d/m/Y h:i:s a') : '';
+    })
+    ->editColumn('durasi_pekerjaan', function ($datatb) {
+      return
+      date("h \j\a\m\,\ i \m\\e\\n\\i\\t", strtotime($datatb->durasi_pekerjaan));
+    })
+    ->addColumn('tgl_keluar', function ($datatb) {
+        return
+        date("d/m/Y h:i:s a", strtotime($datatb->waktu_logout));
+    })
+
+    ->make(true);
+  }
+
+  public function index(presensiDataTable $dataTable)
+  {
+      return $dataTable->render('presensi.presensinya');
+  }
+
+
+
 }

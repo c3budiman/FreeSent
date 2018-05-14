@@ -15,7 +15,7 @@ class CreateDaftarPresensisTable extends Migration
     {
       //untuk daftar presensi dari karyawan
         Schema::create('daftar_presensis', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_tabel');
             $table->unsignedInteger('id_manajer')->nullable();
             $table->unsignedInteger('id_karyawan')->nullable();
             $table->string('lokasi_absen');

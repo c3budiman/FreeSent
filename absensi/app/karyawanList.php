@@ -23,9 +23,4 @@ class karyawanList extends Model
   {
     return $this->belongsTo(User::class,'id_karyawan');
   }
-
-  public function listnya()
-  {
-      return $this->belongsTo(User::class, 'id_manajer', 'id_karyawan');
-  }
 }

@@ -8,18 +8,10 @@
   </head>
   <body>
     <div id="app">
-      <h1>tes</h1>
       <example-component> </example-component>
+
     </div>
     <script src="js/app.js" type="text/javascript">
-
-    </script>
-    <script type="text/javascript">
-    $.ajaxSetup({
-      headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     </script>
   </body>
 </html>

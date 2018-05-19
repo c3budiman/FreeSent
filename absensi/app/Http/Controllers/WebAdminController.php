@@ -13,7 +13,6 @@ use App\Role;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use App\Transformers\UserTransformer;
 use App\SettingSitus;
 use Storage;
 
@@ -200,14 +199,9 @@ class WebAdminController extends Controller
         'password'  => bcrypt($request->password),
       ]);
 
-      //membuat response array, untuk di tampilkan menjadi json nantinya
-      $response = fractal()
-                            ->item($createuser)
-                            ->transformWith(new UserTransformer)
-                            ->toArray();
       //endpoint api berdasarkan hasil dari response, jika berjalan lancar :
       // 201, artinya konten berhasil dibuat, 200 success, 404 not found, 500 server error etc etc...
-      return response()->json($response,201);
+      return response()->json(['sukses' => 'User Berhasil Ditambahkan !'], 201);
     }
 
     public function edituser(Request $request, User $user){

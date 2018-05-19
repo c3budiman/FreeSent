@@ -1,10 +1,19 @@
 <?php
+
+use App\Events\dbEvent;
 Route::get('tesvue', function () {
     return view('tesvue');
 });
 Route::get('phpinfo', function () {
     echo phpinfo();
 });
+Route::get('event', function() {
+  event(new dbEvent('hey bro! how are you!'));
+});
+Route::get('listen', function() {
+  return view('tesListen');
+});
+
 
 
 /*
@@ -87,3 +96,4 @@ Route::post('karyawan/delete', 'manajerController@deleteKaryawan');
 Route::get('presensi/json', 'manajerController@presensiManajerDataTB')->name('presensi/json');
 Route::get('reporting', 'manajerController@getReport');
 Route::resource('presensi', 'manajerController');
+Route::post('presensi/delete', 'manajerController@DestoyPresensi');

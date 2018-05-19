@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class daftarPresensi extends Model
 {
     protected $table = 'daftar_presensis';
+    protected $primaryKey = 'id_tabel';
 
     public function manajer()
     {

@@ -20,7 +20,8 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('roles_id')->nullable();
             $table->string('avatar');
             $table->string('password');
-            $table->rememberToken();
+            $table->string('api_token')->nullable();
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
 
@@ -49,7 +50,8 @@ class CreateUsersTable extends Migration
                 'email' => 'c3budiman@gmail.com',
                 'roles_id' => 1,
                 'avatar' => '/images/avatar.png',
-                'password' => '$2y$10$wPiZJWRSRQNs.miLWWSJfu7NiN3KUJzeXD316i9xynnCWigJjY1/q'
+                'password' => '$2y$10$wPiZJWRSRQNs.miLWWSJfu7NiN3KUJzeXD316i9xynnCWigJjY1/q',
+                'api_token' => ''
             )
         );
 
@@ -59,7 +61,8 @@ class CreateUsersTable extends Migration
                 'email' => 'tesmanajer@gmail.com',
                 'roles_id' => 2,
                 'avatar' => '/images/avatar.png',
-                'password' => '$2y$10$gZFgFXNoBGFOZloaXT/SguF39RTgzLMMiBm68/GTysFJ4ajQmk9vy'
+                'password' => '$2y$10$gZFgFXNoBGFOZloaXT/SguF39RTgzLMMiBm68/GTysFJ4ajQmk9vy',
+                'api_token' => '',
             )
         );
     }

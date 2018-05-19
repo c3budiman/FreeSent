@@ -32,7 +32,7 @@
         @yield('csstambahan')
         <!-- Table Responsive css -->
         <link href="{{URL::asset('plugins/responsive-table/css/rwd-table.min.css') }}" rel="stylesheet" type="text/css" media="screen">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        @yield('meta')
     </head>
     <body>
         <div id="wrapper">

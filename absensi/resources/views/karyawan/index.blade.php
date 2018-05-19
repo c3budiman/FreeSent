@@ -1,8 +1,4 @@
-@php
-  $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
-@endphp
-
-@extends('layouts.dlayout');
+@extends('layouts.dlayout')
 
 @section('title')
   Atur Karyawan
@@ -17,10 +13,12 @@
 @endsection
 
 @section('content')
+  @php
+    $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
+  @endphp
   <!-- Start Page content -->
   <div class="content">
       <div class="container-fluid">
-
           <div class="row">
               <div class="col-12">
                   <div class="card-box table-responsive">
@@ -33,20 +31,22 @@
                           <button type="button"  href="#" class="btn btn-xs btn-info" id="tambah2"> <i class="fa fa-plus"></i> Tambah Dari Yang Terdaftar</button>
                       </div>
                       <br>
-                      <table id="contoh" class="table table-bordered table-hover datatable">
+                      <table style="width:100%;" id="contoh" class="table table-bordered table-hover datatable">
                           <thead>
                               <tr>
                                   <th>Nama Karyawan</th>
                                   <th>Email</th>
-                                  <th>Action</th>
+                                  <th colspan="10%">Action</th>
                               </tr>
                           </thead>
                       </table>
+
                   </div>
               </div>
           </div>
       </div>
   </div>
+
 
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -69,15 +69,14 @@
               <span id="footer_action_button" class='glyphicon'> </span>
             </button>
             <button type="button" class="btn btn-warning" data-dismiss="modal">
-              <span class='glyphicon glyphicon-remove'></span> Batal
+    <span class='glyphicon glyphicon-remove'></span> Batal
             </button>
           </div>
-
-
         </div>
       </div>
     </div>
   </div>
+
 
 
   <!-- Signup modal content -->
@@ -244,8 +243,7 @@
               id_user: $('select[name=id_karyawan]').val(),
             },
             success: function (data, status) {
-                location.reload();
-                $('.datatable').DataTable().ajax.reload(null, false);
+              location.reload();
             },
             error: function (request, status, error) {
                 console.log(request.responseJSON);
@@ -282,7 +280,7 @@
                 id_tabel: $("#iddelete").val(),
               },
               success: function (data, status) {
-                  location.reload();
+
               },
               error: function (request, status, error) {
                   console.log($("#iddelete").val());
@@ -298,6 +296,31 @@
 
   <!-- Init Js file -->
   <script type="text/javascript" src="assets/pages/jquery.form-advanced.init.js"></script>
+  <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = false;
+
+    var pusher = new Pusher('dc6a1819038c28e12f36', {
+      cluster: 'ap1',
+      encrypted: true,
+      authEndpoint: '/broadcasting/auth',
+      auth: {
+      headers: {
+              'X-CSRF-Token': '{{ csrf_token() }}'
+          }
+      }
+    });
+
+    var channel = pusher.subscribe('private-dbEvent');
+    channel.bind('App\\Events\\dbEvent', function(data) {
+      console.log(data.message)
+      $(document).ready(function() {
+        $('.datatable').DataTable().ajax.reload(null, false);
+      });
+    });
+  </script>
 
 
 @endsection

@@ -1,8 +1,8 @@
+@extends('layouts.dlayout')
+
 @php
   $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
 @endphp
-
-@extends('layouts.dlayout');
 
 @section('title')
   Presensi Karyawan
@@ -14,6 +14,7 @@
     <link href="../plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="../plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('content')
@@ -155,17 +156,6 @@
           </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-
-  @foreach ($beritanya as $berita)
-    @if (DB::table('tb_news')->where($berita->status,'=','1')->first()->status == '1')
-      Aktif
-    @else
-      Tidak Aktif
-    @endif
-  @endforeach
-
-{{ $aktif }}
-{!! $status !!}
 @endsection
 
 @section('js')
@@ -183,25 +173,6 @@
   <script type="text/javascript">
 
   $(document).ready(function() {
-    // $('.datatable').DataTable({
-    //         "language": {
-    //         "url": "https://cdn.datatables.net/plug-ins/1.10.16/i18n/Indonesian-Alternative.json"
-    //     },
-    //     processing: true,
-    //     serverSide: true,
-    //     ajax: '{{ route('presensi/json') }}',
-    //     columns: [
-    //         {data: 'id', name: 'id'},
-    //         {data: 'karyawan.email', name: 'karyawan.email'},
-    //         {data: 'karyawan.nama', name: 'karyawan.nama'},
-    //         {data: 'lokasi_absen', name: 'lokasi_absen'},
-    //         {data: 'waktu_absen', name: 'waktu_absen'},
-    //         {data: 'waktu_logout', name: 'waktu_logout'},
-    //         {data: 'durasi_pekerjaan', name: 'durasi_pekerjaan'},
-    //         {data: 'action', name: 'action', orderable: false, searchable: false},
-    //     ]
-    // });
-
     // ShowModals
       $(document).on('click', '#tambah', function() {
           $('#signup-modal').modal('show');
@@ -282,14 +253,14 @@
       $('.modal-footer').on('click', '.delete', function() {
           $.ajax({
               type: "POST",
-              url: "/karyawan/delete",
+              url: "/presensi/delete",
               dataType: "json",
               data: {
                 '_token': $('input[name=_token]').val(),
-                id_tabel: $("#iddelete").val(),
+                id: $("#iddelete").val(),
               },
               success: function (data, status) {
-                  location.reload();
+                  $('.datatable').DataTable().ajax.reload(null, false);
               },
               error: function (request, status, error) {
                   console.log($("#iddelete").val());
@@ -305,6 +276,4 @@
 
   <!-- Init Js file -->
   <script type="text/javascript" src="assets/pages/jquery.form-advanced.init.js"></script>
-
-
 @endsection

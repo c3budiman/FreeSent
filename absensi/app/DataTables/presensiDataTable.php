@@ -19,20 +19,32 @@ class presensiDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
+        
         ->addColumn('action', function ($datatb) {
-          $id = $datatb->id;
+          $id = $datatb->id_tabel;
             return
             '<button data-id="'.$id.'" data-nama="'.$datatb->karyawan->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
         })
+
         ->editColumn('waktu_absen', function ($datatb) {
             return $datatb->waktu_absen ? with(new Carbon($datatb->waktu_absen))->format('d/m/Y h:i:s a') : '';
         })
+
         ->editColumn('waktu_logout', function ($datatb) {
+          if ($datatb->waktu_logout != "") {
             return $datatb->waktu_logout ? with(new Carbon($datatb->waktu_logout))->format('d/m/Y h:i:s a') : '';
+          } else {
+            return "Belum Logout";
+          }
         })
+
         ->editColumn('durasi_pekerjaan', function ($datatb) {
-          return
-          date("h \j\a\m\,\ i \m\\e\\n\\i\\t", strtotime($datatb->durasi_pekerjaan));
+          if ($datatb->durasi_pekerjaan != "") {
+            return
+            date("h \j\a\m\,\ i \m\\e\\n\\i\\t", strtotime($datatb->durasi_pekerjaan));
+          } else {
+            return "Belum Logout";
+          }
         });
     }
 
@@ -71,13 +83,13 @@ class presensiDataTable extends DataTable
     protected function getColumns()
     {
         return [
-          'id' => ['data' => 'id', 'name' => 'id'],
+          'id' => ['data' => 'id_tabel', 'name' => 'id_tabel'],
           'email' => ['data' => 'karyawan.email', 'email' => 'karyawan.email'],
           'nama' => ['data' => 'karyawan.nama', 'nama' => 'karyawan.nama'],
           'lokasi_absen' => ['data' => 'lokasi_absen', 'lokasi_absen' => 'lokasi_absen'],
           'waktu_absen' => ['data' => 'waktu_absen', 'waktu_absen' => 'waktu_absen'],
           'waktu_logout' => ['data' => 'waktu_logout', 'waktu_logout' => 'waktu_logout'],
-          'durasi_pekerjaan' => ['data' => 'durasi_pekerjaan', 'durasi_pekerjaan' => 'durasi_pekerjaan'],
+          'durasi_pekerjaan' => ['data' => 'durasi_pekerjaan', 'name' => 'durasi_pekerjaan'],
           'action' => ['data' => 'action', 'name' => 'action', 'orderable'=> false, 'searchable' => false],
         ];
     }

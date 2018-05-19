@@ -1,7 +1,7 @@
 @extends('layouts.dlayout')
 
 @section('title')
-  FreeSent SekDos Dashboard
+  FreeSent {{DB::table('roles')->where('id','=','2')->get()->first()->namaRule}} Dashboard
 @endsection
 
 

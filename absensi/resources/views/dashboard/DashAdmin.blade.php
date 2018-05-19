@@ -1,5 +1,5 @@
 @extends('layouts.dlayout')
-@section('title') FreeSent WebAdmin Dashboard @endsection
+@section('title') FreeSent {{DB::table('roles')->where('id','=','1')->get()->first()->namaRule}} Dashboard @endsection
 
 @section('content')
 <div class="row text-center">

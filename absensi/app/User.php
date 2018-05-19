@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama', 'email', 'password', 'avatar', 'roles_id',
+        'nama', 'email', 'password', 'avatar', 'roles_id', 'api_token'
     ];
 
     /**
@@ -28,15 +28,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function karyawanListnya()
-    {
-      return $this->hasMany(karyawanList::class);
-    }
-
-    public function daftarPresensinya()
-    {
-      return $this->hasMany(karyawanList::class);
-    }
+    // public function karyawanListnya()
+    // {
+    //   return $this->hasMany(karyawanList::class);
+    // }
+    //
+    // public function daftarPresensinya()
+    // {
+    //   return $this->hasMany(karyawanList::class);
+    // }
 
     public function role()
     {

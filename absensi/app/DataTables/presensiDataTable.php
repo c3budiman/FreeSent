@@ -19,13 +19,12 @@ class presensiDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables($query)
-        
+
         ->addColumn('action', function ($datatb) {
           $id = $datatb->id_tabel;
             return
             '<button data-id="'.$id.'" data-nama="'.$datatb->karyawan->nama.'" class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
         })
-
         ->editColumn('waktu_absen', function ($datatb) {
             return $datatb->waktu_absen ? with(new Carbon($datatb->waktu_absen))->format('d/m/Y h:i:s a') : '';
         })
@@ -56,7 +55,7 @@ class presensiDataTable extends DataTable
      */
     public function query(daftarPresensi $model)
     {
-        return $query = daftarPresensi::with('karyawan')->where('id_manajer','=',Auth::User()->id);;
+        return $query = daftarPresensi::with('karyawan')->where('id_manajer','=',Auth::User()->id);
     }
 
     /**
@@ -71,7 +70,7 @@ class presensiDataTable extends DataTable
                     ->minifiedAjax()
                     ->parameters([
                           'dom' => 'Bfrtip',
-                          'buttons' => ['csv', 'excel', 'print'],
+                          'buttons' => ['csv', 'excel', 'pdf', 'print'],
                       ]);
     }
 
@@ -101,6 +100,6 @@ class presensiDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'presensi_' . date('YmdHis');
+        return 'daftarHadirKaryawan_'.Auth::User()->email."_". date('d/m/Y');
     }
 }

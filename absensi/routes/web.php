@@ -14,6 +14,13 @@ Route::get('listen', function() {
   return view('tesListen');
 });
 
+Route::get('tesbet', function() {
+  $from = '2018-05-17 12:00:00';
+  $to = '2018-05-17 13:00:00';
+  $result = DB::table('daftar_presensis')->whereBetween('waktu_absen', array($from, $to))->get();
+  dd($result);
+});
+
 
 
 /*
@@ -93,7 +100,12 @@ Route::post('karyawan/delete', 'manajerController@deleteKaryawan');
 
 
 //Route::get('presensi', 'manajerController@getPresensi');
-Route::get('presensi/json', 'manajerController@presensiManajerDataTB')->name('presensi/json');
+// Route::get('presensi/carirange/{range}','manajerController2@cariPresensi');
+Route::get('presensi/range/{range1}/{range2}', 'manajerController2@getPresensiByRange');
+Route::post('presensi/range/{range1}/{range2}', 'manajerController2@postPresensiRange');
+Route::get('presensi/range','manajerController2@range');
+Route::post('presensi/range', 'manajerController2@postPresensiRange');
+// Route::get('presensi/json', 'manajerController@presensiManajerDataTB')->name('presensi/json');
 Route::get('reporting', 'manajerController@getReport');
 Route::resource('presensi', 'manajerController');
 Route::post('presensi/delete', 'manajerController@DestoyPresensi');

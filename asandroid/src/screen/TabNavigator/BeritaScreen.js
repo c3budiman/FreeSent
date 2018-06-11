@@ -8,9 +8,73 @@ import {
 import { Container, Header, Card, CardItem, Content, Form, Badge,
   Item, Input, Label, Left, Right, Button, Icon, Body, Title, Thumbnail } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+// import Pusher from 'pusher-js/react-native';
+importScripts('https://js.pusher.com/4.2/pusher.worker.min.js');
+import { connect } from 'react-redux'
+import { BASE_URL } from '../../env'
 
 class BeritaScreen extends Component {
+  constructor(props) {
+  super(props);
+  this.state = {
+      Berita: []
+    };
+  }
+
+  test() {
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('dc6a1819038c28e12f36', {
+      cluster: 'ap1',
+      encrypted: true
+    });
+
+    var channel = pusher.subscribe('beritaEvent');
+    channel.bind('App\\Events\\beritaEvent', function(data) {
+      this.setState({Berita: data.message});
+    });
+  }
+
+  componentDidMount() {
+    console.log(this.props.auth.token)
+    fetch(BASE_URL+"api/berita", {
+      method: "GET",
+      headers: {
+        'Accept' : 'application/json',
+        'Authorization' : 'Bearer ' + this.props.auth.token
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json)
+      this.setState({Berita: json})
+      console.log(this.state.Berita[0].judul)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
   render() {
+    const { auth } = this.props
+    FetchBerita = (token) => {
+      console.log(auth.token)
+      fetch(BASE_URL+"api/berita", {
+        method: "GET",
+        headers: {
+          'Accept' : 'application/json',
+          'Authorization' : 'Bearer ' + token
+        },
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
+
     return (
       <Container>
         <Content>
@@ -24,7 +88,7 @@ class BeritaScreen extends Component {
                 </Body>
               </Left>
               <Badge info>
-                <Text style={{color: '#fff'}}>Pengumuman</Text>
+                <Text style={{padding: 5, color: '#fff'}}>Pengumuman</Text>
               </Badge>
             </CardItem>
             <CardItem cardBody>
@@ -54,7 +118,7 @@ class BeritaScreen extends Component {
                 </Body>
               </Left>
               <Badge info>
-                <Text style={{color: '#fff'}}>Pengumuman</Text>
+                <Text style={{padding: 5, color: '#fff'}}>Pengumuman</Text>
               </Badge>
             </CardItem>
             <CardItem cardBody>
@@ -89,4 +153,15 @@ const styles = StyleSheet.create({
 });
 
 
-export default BeritaScreen;
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(logout())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BeritaScreen)

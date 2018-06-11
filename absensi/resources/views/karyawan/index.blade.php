@@ -298,9 +298,8 @@
   <script type="text/javascript" src="assets/pages/jquery.form-advanced.init.js"></script>
   <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
   <script>
-
     // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = false;
+    Pusher.logToConsole = true;
 
     var pusher = new Pusher('dc6a1819038c28e12f36', {
       cluster: 'ap1',

@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use App\SettingSitus;
 use Storage;
+use App\berita;
+use Auth;
+use App\Events\beritaEvent;
 
 class WebAdminController extends Controller
 {
@@ -344,6 +347,64 @@ class WebAdminController extends Controller
       $settingsitus->slogan = strip_tags($request->slogan);
       $settingsitus->save();
       return redirect('juduldanslogan')->with('status', 'Judul dan/atau Slogan Berhasil Di Update!');
+    }
+
+    public function getBerita() {
+      return view('berita.aturBerita');
+    }
+
+    public function beritaDataTB() {
+      $query = berita::with('authornya');
+      return DataTables::of($query)
+            ->addColumn('action', function ($datatb) {
+                return
+                 '<a target="_blank" style="margin-left:5px" href="/berita/'.$datatb->id_berita.'" class="btn btn-xs btn-warning"><i class="fa fa-eye"></i> Lihat</a>'
+                 .'<div style="padding-top:10px"></div>'
+                 .'<a style="margin-left:5px" href="/berita/'.$datatb->id_berita.'/edit" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Ubah</a>'
+                 .'<div style="padding-top:10px"></div>'
+                 .'<button style="margin-left:5px" data-id="'.$datatb->id_berita.'" data-nama="'.$datatb->judul.'"  class="delete-modal btn btn-xs btn-danger" type="submit"><i class="fa fa-trash"></i> Delete</button>';
+            })
+            ->make(true);
+    }
+
+    public function getTambahBerita() {
+      return view('berita.tambahBerita');
+    }
+
+    public function getBeritaUpdate($id) {
+      $berita = berita::with('authornya')->where('id_berita','=',$id)->get()->first();
+      return view('berita.editBerita',['berita'=>$berita]);
+    }
+
+    public function updateBerita(Request $request, $id) {
+      $berita = berita::find($id);
+      $berita->author = Auth::User()->id;
+      $berita->uri = '/berita/'.str_slug(strip_tags($request->judul));
+      $berita->judul = strip_tags($request->judul);
+      $berita->content = $request->content;
+      $berita->save();
+      return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
+    }
+
+    public function postBerita(Request $request) {
+      $berita = new berita();
+      $berita->author = Auth::User()->id;
+      $berita->uri = '/berita/'.str_slug(strip_tags($request->judul));
+      $berita->judul = strip_tags($request->judul);
+      $berita->content = $request->content;
+      $berita->save();
+      $berita2 = DB::table('berita')->get();
+      event(new beritaEvent($berita2));
+      return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
+    }
+
+    public function deleteBerita(Request $request) {
+
+      $berita = berita::find($request->id_berita);
+      $berita->delete();
+
+      $response = array("success"=>"Berita Deleted");
+      return response()->json($response,200);
     }
 
 }

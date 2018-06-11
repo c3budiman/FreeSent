@@ -85,4 +85,9 @@ class apiController extends Controller
       event(new PresensiDB('Karyawan dengan id '.$rekapan->id_karyawan.' Berhasil Mengisi Presensi'));
       return response()->json(['sukses'=>'Anda Berhasil Logout rekapan anda sudah tercatat!','id_presensi'=>$request->id],201);
     }
+
+    public function getSemuaBerita() {
+      $berita = DB::table('berita')->get();
+      return response()->json($berita);
+    }
 }

@@ -2,6 +2,7 @@
   $logo = DB::table('setting_situses')->where('id','=','1')->get()->first()->logo;
   $favicon =DB::table('setting_situses')->where('id','=','1')->get()->first()->favicon;
 @endphp
+
 <!DOCTYPE html>
 <html>
     <head>

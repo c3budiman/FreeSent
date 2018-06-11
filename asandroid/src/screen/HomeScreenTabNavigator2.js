@@ -13,10 +13,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import HeaderLoggedIn from '../Layouts/HeaderLoggedIn'
 import LoginScreen from './LoginScreen'
 
-export default class AppTabNavigator extends Component {
+export default class AppTabNavigator2 extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-          header: (
+          header: ( /* Your custom header */
           <Header style={{backgroundColor: '#01a3af'}} >
               <Left>
                 <Button transparent onPress={() => navigation.openDrawer()}>
@@ -41,14 +41,14 @@ export default class AppTabNavigator extends Component {
 
 const HomeScreenTabNavigator = new TabNavigator(
 {
-  Berita: {
-    screen: BeritaScreen,
-  },
   Absen: {
     screen: AbsenScreen,
   },
   Profil: {
     screen: ProfilScreen
+  },
+  Berita: {
+    screen: BeritaScreen,
   },
 },
 
@@ -61,7 +61,7 @@ const HomeScreenTabNavigator = new TabNavigator(
               <Button
                 style={{backgroundColor: '#01a3af'}}
                 vertical
-                active={props.navigationState.index === 0}
+                active={props.navigationState.index === 2}
                 onPress={() => props.navigation.navigate("Berita")}>
                 <Icon name="home" />
                 <Text>Home</Text>
@@ -69,7 +69,7 @@ const HomeScreenTabNavigator = new TabNavigator(
               <Button
                 style={{backgroundColor: '#01a3af'}}
                 vertical
-                active={props.navigationState.index === 1}
+                active={props.navigationState.index === 0}
                 onPress={() => props.navigation.navigate("Absen")}>
                 <Icon name="md-checkbox" />
                 <Text>Isi Presensi</Text>
@@ -77,7 +77,7 @@ const HomeScreenTabNavigator = new TabNavigator(
               <Button
                 style={{backgroundColor: '#01a3af'}}
                 vertical
-                active={props.navigationState.index === 2}
+                active={props.navigationState.index === 1}
                 onPress={() => props.navigation.navigate("Profil")}>
                 <Icon name="briefcase" />
                 <Text>Rekap</Text>

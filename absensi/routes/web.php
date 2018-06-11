@@ -106,6 +106,24 @@ Route::post('presensi/range/{range1}/{range2}', 'manajerController2@postPresensi
 Route::get('presensi/range','manajerController2@range');
 Route::post('presensi/range', 'manajerController2@postPresensiRange');
 // Route::get('presensi/json', 'manajerController@presensiManajerDataTB')->name('presensi/json');
-Route::get('reporting', 'manajerController@getReport');
+
 Route::resource('presensi', 'manajerController');
 Route::post('presensi/delete', 'manajerController@DestoyPresensi');
+
+
+Route::get('berita', 'WebAdminController@getBerita');
+Route::get('berita/json', 'WebAdminController@beritaDataTB')->name('berita/json');
+Route::get('tambahBerita', 'WebAdminController@getTambahBerita');
+Route::post('berita', 'WebAdminController@postBerita');
+Route::post('delete/berita', 'WebAdminController@deleteBerita');
+Route::get('berita/{id}/edit','WebAdminController@getBeritaUpdate');
+Route::put('berita/{id}/edit', 'WebAdminController@updateBerita');
+Route::get('berita/{id}', 'getController@getBeritaSingle');
+
+
+
+
+//this one for webview...
+Route::get('webview/{token}/{range1}/{range2}', 'getController@getRange');
+Route::get('webview', 'getController@getRangeView');
+Route::post('webview', 'getController@postRange');

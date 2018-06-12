@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\dbEvent;
+use App\berita;
 Route::get('tesvue', function () {
     return view('tesvue');
 });
@@ -15,10 +16,8 @@ Route::get('listen', function() {
 });
 
 Route::get('tesbet', function() {
-  $from = '2018-05-17 12:00:00';
-  $to = '2018-05-17 13:00:00';
-  $result = DB::table('daftar_presensis')->whereBetween('waktu_absen', array($from, $to))->get();
-  dd($result);
+  $berita2 = berita::with('authornya.role')->get();
+  return response()->json($berita2);
 });
 
 

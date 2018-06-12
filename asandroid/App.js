@@ -22,6 +22,7 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import rootReducer from './src/reducer'
+import JailMonkey from 'jail-monkey'
 
 const store = createStore(
   rootReducer,

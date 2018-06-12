@@ -10,6 +10,7 @@ use App\daftarPresensi;
 use App\Events\PresensiDB;
 use DB;
 use Carbon\Carbon;
+use App\berita;
 
 class apiController extends Controller
 {
@@ -56,15 +57,24 @@ class apiController extends Controller
       $this->validate($request, [
         'lokasi_absen'      => 'required',
         'waktu_absen'       => 'required|date',
+        'api_token'         => 'required',
       ]);
-      $rekapan = new daftarPresensi;
-      $rekapan->id_karyawan = Auth::User()->id;
-      $rekapan->id_manajer = DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer;
-      $rekapan->lokasi_absen = $request->lokasi_absen;
-      $rekapan->waktu_absen = $request->waktu_absen;
-      $rekapan->save();
-      event(new PresensiDB('Karyawan dengan id '.$rekapan->id_karyawan.' Berhasil Mengisi Presensi'));
-      return response()->json(['sukses'=>'Anda Berhasil Mengisi Presensi!','id_presensi'=>$rekapan->id],201);
+      $id_karyawan = DB::table('users')->where('api_token','=',$request->token)->get()->first()->id;
+      $id = DB::table('daftar_presensis')->insertGetId(
+          ['id_karyawan'   => $id_karyawan,
+           'id_manajer'    => DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer,
+           'lokasi_absen'  => $request->lokasi_absen,
+           'waktu_absen'   => $request->waktu_absen
+          ]
+      );
+      // $rekapan = new daftarPresensi;
+      // $rekapan->id_karyawan = Auth::User()->id;
+      // $rekapan->id_manajer = DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer;
+      // $rekapan->lokasi_absen = $request->lokasi_absen;
+      // $rekapan->waktu_absen = $request->waktu_absen;
+      // $rekapan->save();
+      // event(new PresensiDB('Karyawan dengan id '.$rekapan->id_karyawan.' Berhasil Mengisi Presensi'));
+      return response()->json(['sukses'=>'Anda Berhasil Mengisi Presensi!','id_presensi'=>$id],201);
     }
 
     //this one.... for updating the db after user is log out guys....
@@ -79,6 +89,8 @@ class apiController extends Controller
       $date2 = Carbon::parse($request->waktu_logout);
       $diffis = $date2->diffInSeconds($date1);
       $diff = gmdate('H:i:s', $diffis);
+
+
       $rekapan->waktu_logout = $request->waktu_logout;
       $rekapan->durasi_pekerjaan = $diff;
       $rekapan->save();
@@ -87,7 +99,7 @@ class apiController extends Controller
     }
 
     public function getSemuaBerita() {
-      $berita = DB::table('berita')->get();
+      $berita = berita::with('authornya.role')->get();
       return response()->json($berita);
     }
 }

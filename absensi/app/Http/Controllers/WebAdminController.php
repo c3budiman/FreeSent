@@ -383,6 +383,10 @@ class WebAdminController extends Controller
       $berita->judul = strip_tags($request->judul);
       $berita->content = $request->content;
       $berita->save();
+
+      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = response()->json($berita2);
+      event(new beritaEvent($berita2));
       return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
     }
 
@@ -393,15 +397,20 @@ class WebAdminController extends Controller
       $berita->judul = strip_tags($request->judul);
       $berita->content = $request->content;
       $berita->save();
-      $berita2 = DB::table('berita')->get();
+
+      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = response()->json($berita2);
       event(new beritaEvent($berita2));
       return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
     }
 
     public function deleteBerita(Request $request) {
-
       $berita = berita::find($request->id_berita);
       $berita->delete();
+
+      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = response()->json($berita2);
+      event(new beritaEvent($berita2));
 
       $response = array("success"=>"Berita Deleted");
       return response()->json($response,200);

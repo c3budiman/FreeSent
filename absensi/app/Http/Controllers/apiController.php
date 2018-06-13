@@ -11,6 +11,8 @@ use App\Events\PresensiDB;
 use DB;
 use Carbon\Carbon;
 use App\berita;
+use Exception;
+use App\Events\presensiEvent;
 
 class apiController extends Controller
 {
@@ -56,50 +58,62 @@ class apiController extends Controller
     public function handlePostPresensi(Request $request) {
       $this->validate($request, [
         'lokasi_absen'      => 'required',
-        'waktu_absen'       => 'required|date',
-        'api_token'         => 'required',
       ]);
-      $id_karyawan = DB::table('users')->where('api_token','=',$request->token)->get()->first()->id;
-      $id = DB::table('daftar_presensis')->insertGetId(
-          ['id_karyawan'   => $id_karyawan,
-           'id_manajer'    => DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer,
-           'lokasi_absen'  => $request->lokasi_absen,
-           'waktu_absen'   => $request->waktu_absen
-          ]
-      );
-      // $rekapan = new daftarPresensi;
-      // $rekapan->id_karyawan = Auth::User()->id;
-      // $rekapan->id_manajer = DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer;
-      // $rekapan->lokasi_absen = $request->lokasi_absen;
-      // $rekapan->waktu_absen = $request->waktu_absen;
-      // $rekapan->save();
-      // event(new PresensiDB('Karyawan dengan id '.$rekapan->id_karyawan.' Berhasil Mengisi Presensi'));
-      return response()->json(['sukses'=>'Anda Berhasil Mengisi Presensi!','id_presensi'=>$id],201);
+      $presensi = DB::table('daftar_presensis')->where('id_karyawan','=',Auth::User()->id)->where('waktu_logout','=',null)->count();
+      if ($presensi>0) {
+        return response()->json(['error'=>'Silahkan logout terlebih dahulu'],401);
+      } else {
+        try {
+          $id_manajer = DB::table('data_karyawan')->where('id_karyawan','=',Auth::User()->id)->get()->first()->id_manajer;
+          $id = DB::table('daftar_presensis')->insertGetId(
+              ['id_karyawan'   => Auth::User()->id,
+               'id_manajer'    => $id_manajer,
+               'lokasi_absen'  => $request->lokasi_absen,
+               'waktu_absen'   => Carbon::now()
+              ]
+          );
+          return response()->json(['sukses'=>'Anda Berhasil Mengisi Presensi!','id_presensi'=>$id],201);
+        } catch (Exception $e) {
+          return response()->json(['tes'=>$e,'error'=>'Anda gagal mengisi karena tidak memiliki manajer, silahkan kontak manajer anda untuk mendaftarkan anda!'],401);
+        }
+      }
     }
 
     //this one.... for updating the db after user is log out guys....
     public function handlePostLogoutPresensi(Request $request) {
       $this->validate($request, [
         'id'                => 'required',
-        'waktu_logout'      => 'required|date',
       ]);
       $rekapan = daftarPresensi::where('id_tabel','=',$request->id)->get()->first();
       //find the difference between two timestamp....
-      $date1 = Carbon::parse($rekapan->get()->first()->waktu_absen);
-      $date2 = Carbon::parse($request->waktu_logout);
+      $date1 = Carbon::parse($rekapan->waktu_absen);
+      $date2 = Carbon::parse(Carbon::now());
       $diffis = $date2->diffInSeconds($date1);
       $diff = gmdate('H:i:s', $diffis);
 
-
-      $rekapan->waktu_logout = $request->waktu_logout;
+      $rekapan->waktu_logout = Carbon::now();
       $rekapan->durasi_pekerjaan = $diff;
       $rekapan->save();
-      event(new PresensiDB('Karyawan dengan id '.$rekapan->id_karyawan.' Berhasil Mengisi Presensi'));
-      return response()->json(['sukses'=>'Anda Berhasil Logout rekapan anda sudah tercatat!','id_presensi'=>$request->id],201);
+
+      //todo event presensi return exactly report
+      $presensi = DB::table('daftar_presensis')->where('id_karyawan','=',Auth::User()->id)->where('waktu_logout','<>',null)->get();
+      $presensinya = response()->json($presensi);
+      event(new presensiEvent($presensinya));
+
+      return response()->json(['date1'=>$date1,'date2'=>$date2,'diff'=>$diff]);
     }
 
     public function getSemuaBerita() {
-      $berita = berita::with('authornya.role')->get();
+      $berita = berita::with('authornya.role')->latest()->get();
       return response()->json($berita);
+    }
+
+    public function getRekapAbsen() {
+      $presensi = DB::table('daftar_presensis')->where('id_karyawan','=',Auth::User()->id)->where('waktu_logout','<>',null)->get();
+      if ($presensi == '[]') {
+        return response()->json(['error'=>'tidak ada presensi']);
+      } else {
+        return response()->json($presensi);
+      }
     }
 }

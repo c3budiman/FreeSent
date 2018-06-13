@@ -124,5 +124,3 @@ Route::get('berita/{id}', 'getController@getBeritaSingle');
 
 //this one for webview...
 Route::get('webview/{token}/{range1}/{range2}', 'getController@getRange');
-Route::get('webview', 'getController@getRangeView');
-Route::post('webview', 'getController@postRange');

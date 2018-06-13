@@ -16,8 +16,12 @@ Route::get('listen', function() {
 });
 
 Route::get('tesbet', function() {
-  $berita2 = berita::with('authornya.role')->get();
-  return response()->json($berita2);
+  $base = "https://maps.googleapis.com/maps/api/geocode/json";
+  $location = "-7.273256666666667,107.80380333333332";
+  $key = "AIzaSyBUS0DbuqGat2a2hvg7C1cJYonlVWBN938";
+  $url = $base . '?latlng=' . $location . '&key=' . $key;
+  $apidecode = json_decode(file_get_contents($url));
+  dd($apidecode->results[0]->formatted_address);
 });
 
 

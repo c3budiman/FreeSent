@@ -28,7 +28,15 @@ class presensiDataTable extends DataTable
         ->editColumn('waktu_absen', function ($datatb) {
             return $datatb->waktu_absen ? with(new Carbon($datatb->waktu_absen))->format('d/m/Y h:i:s a') : '';
         })
-
+        //https://maps.googleapis.com/maps/api/geocode/json?latlng=-7.273256666666667,107.80380333333332&key=AIzaSyBUS0DbuqGat2a2hvg7C1cJYonlVWBN938
+        // ->editColumn('lokasi_absen', function ($datatb) {
+        //   $base = "https://maps.googleapis.com/maps/api/geocode/json";
+        //   $location = $datatb->lokasi_absen;
+        //   $key = "AIzaSyBUS0DbuqGat2a2hvg7C1cJYonlVWBN938";
+        //   $url = $base . '?latlng=' . $location . '&key=' . $key;
+        //   $apidecode = json_decode(file_get_contents($url));
+        //   return $apidecode->results[0]->formatted_address;
+        // })
         ->editColumn('waktu_logout', function ($datatb) {
           if ($datatb->waktu_logout != "") {
             return $datatb->waktu_logout ? with(new Carbon($datatb->waktu_logout))->format('d/m/Y h:i:s a') : '';

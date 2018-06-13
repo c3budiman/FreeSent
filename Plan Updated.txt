@@ -1,0 +1,7 @@
+Android udah kelar paling klo mau dibagusin di bagian rekap sama absen ditambah timer.
+
+Untuk web kek nya masih ada pr.
+1. reverse geocoding di bagian tabel memakan waktu, jadi kek nya mending di reverse satu satu masukkin db dua dua nya latlong sama lokasi aslinya.
+2. reporting kek nya ga perlu silahkan diupdate
+3. pencarian absen masih kurang bagus
+4. frontend user? perlu? tidak perlu?

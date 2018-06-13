@@ -1,4 +1,4 @@
-package com.asandroid;
+package com.freesentapp;
 
 import android.app.Application;
 

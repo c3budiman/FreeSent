@@ -18,7 +18,6 @@ class AboutScreen extends Component {
           NavigationActions.navigate({ routeName: targetRoute }),
         ],
       });
-      console.log(this);
       this.props.navigation.dispatch(resetAction);
     };
 

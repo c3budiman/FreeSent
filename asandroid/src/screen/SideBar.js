@@ -6,6 +6,8 @@ import Home from './TabNavigator/BeritaScreen'
 import { connect } from 'react-redux'
 import { logout } from '../action'
 import { BASE_URL } from '../env'
+import { StackActions,NavigationActions } from 'react-navigation';
+import LoginScreen from './LoginScreen'
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -17,12 +19,10 @@ class SideBar extends React.Component {
     const { auth } = this.props
 
     if (!auth.token) {
-      console.log(auth.token)
       navigate("LoginScreen")
     }
 
     logoutnya = (token) => {
-      console.log(auth.token)
       fetch(BASE_URL+"api/logout", {
         method: "GET",
         headers: {

@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   WebView,
+  AsyncStorage,
   StyleSheet
 } from "react-native";
 import { Container, Header, Card, CardItem, Content, Form, Badge,
@@ -12,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
 import { BASE_URL } from '../../env'
 import JailMonkey from 'jail-monkey'
+import { absenFetch,setID,logoutAbsenFetch,destroyID } from '../../action'
 
 
 
@@ -23,6 +25,7 @@ class AbsenScreen extends Component {
       longitude: null,
       error: null,
       trustedDevice: null,
+      rendernya: null,
       TerLoginAbsen: false
     };
   }
@@ -35,6 +38,13 @@ class AbsenScreen extends Component {
   }
 
   componentDidMount() {
+    AsyncStorage.getItem('id_presensi').then((data)=> {
+      if (data) {
+        this.props.setID(data)
+      }
+    }).done()
+
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -48,98 +58,99 @@ class AbsenScreen extends Component {
     );
   }
 
-
   doAbsen() {
-    this.setState({TerLoginAbsen: true});
+    if (this.state.latitude === null || this.state.longitude === null) {
+      alert('Error! pastikan gps menyala!')
+    } else {
+      this.props.absenFetch(this.props.auth.token , this.state.latitude + ',' + this.state.longitude)
+    }
   }
 
   LogoutAbsen() {
-    this.setState({TerLoginAbsen: false});
+    this.props.logoutAbsenFetch(this.props.auth.token , this.props.auth.id_presensi)
+    AsyncStorage.removeItem('id_presensi').then(() => {
+      this.props.destroyID()
+    }).done()
   }
 
   render() {
-    console.log(this)
-    if (!this.state.TerLoginAbsen) {
+    if (this.props.auth.id_presensi === null || this.props.auth.id_presensi === "") {
       return (
-        //absen
-        // <Container>
-        //   <Content>
-        //     <Card style={{
-        //                   padding:20,
-        //                   flex: 1,
-        //                   alignSelf: "center",
-        //                   justifyContent: "center",
-        //                   alignItems: "center"
-        //                 }}
-        //                 >
-        //       <CardItem cardBody>
-        //
-        //         <Text note>Silahkan aktifkan terlebih dahulu GPS anda dan tunggu beberapa menit,
-        //         agar Lokasi yang dilaporkan sesuai. Jangan pernah menggunakan vpn atau alat menipu gps,
-        //         jika terdeteksi sistem akun anda akan di nonaktifkan </Text>
-        //       </CardItem>
-        //
-        //       <CardItem>
-        //         <Button large rounded success
-        //           onKeyPress={() => this.setState({TerLoginAbsen: true}) }
-        //           style={{
-        //                         marginTop:40,
-        //                 }}
-        //           >
-        //           <Text
-        //             style={{
-        //                         color:'#fff',
-        //                         padding:20,
-        //                   }}
-        //             >Login Presensi</Text>
-        //         </Button>
-        //       </CardItem>
-        //     </Card>
-        //   </Content>
-        // </Container>
-        <View style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Latitude: {this.state.latitude}</Text>
-          <Text>Longitude: {this.state.longitude}</Text>
-          {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
-        </View>
+        <Container>
+          <Content>
+            <Card style={{
+                          padding:20,
+                          flex: 1,
+                          alignSelf: "center",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                        >
+              <CardItem cardBody>
+                <Text note>Silahkan aktifkan terlebih dahulu GPS anda dan tunggu beberapa menit,
+                agar Lokasi yang dilaporkan sesuai. Jangan pernah menggunakan vpn atau alat menipu gps,
+                jika terdeteksi sistem akun anda akan di nonaktifkan </Text>
+              </CardItem>
+
+              <CardItem>
+                <Button large rounded success
+                  onPress={() =>  this.doAbsen() }
+                  style={{
+                                marginTop:40,
+                        }}
+                  >
+
+                  <Text
+                    style={{
+                                padding:20,
+                                color:'#fff',
+                          }}
+                    >Login Presensi</Text>
+                </Button>
+              </CardItem>
+            </Card>
+          </Content>
+        </Container>
       )
     } else {
-      //logout absen
-      <Container>
-        <Content>
-          <Card style={{
-                        padding:20,
-                        flex: 1,
-                        alignSelf: "center",
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                      >
-            <CardItem cardBody>
-              <Text note>Jika telah selesai bekerja harap melogout akun anda,
-                sistem akan melogout otomatis pada pukul 18.00 WIB,
-                lupa melogout sebanyak 3x akan dikenakan sanksi</Text>
-            </CardItem>
-
-            <CardItem>
-              <Button large rounded danger
-                style={{
-                              marginTop:40,
-                      }}
-                >
-                <Text
-                  style={{
-                              color:'#fff',
-                              padding:20,
+      return(
+        //logout absen
+        <Container>
+          <Content>
+            <Card style={{
+                          padding:20,
+                          flex: 1,
+                          alignSelf: "center",
+                          justifyContent: "center",
+                          alignItems: "center"
                         }}
-                  >Logout Presensi</Text>
-              </Button>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
-    }
+                        >
+              <CardItem cardBody>
+                <Text note>Jika telah selesai bekerja harap melogout akun anda,
+                  sistem akan melogout otomatis pada pukul 18.00 WIB,
+                  lupa melogout sebanyak 3x akan dikenakan sanksi</Text>
+              </CardItem>
 
+              <CardItem>
+                <Button large rounded danger
+                  onPress={() => this.LogoutAbsen() }
+                  style={{
+                                marginTop:40,
+                        }}
+                  >
+                  <Text
+                    style={{
+                                color:'#fff',
+                                padding:20,
+                          }}
+                    >Logout Presensi</Text>
+                </Button>
+              </CardItem>
+            </Card>
+          </Content>
+        </Container>
+      )
+    }
   }
 }
 const styles = StyleSheet.create({
@@ -151,4 +162,18 @@ const styles = StyleSheet.create({
 });
 
 
-export default AbsenScreen;
+const mapStateToProps = (state) => ({
+  auth: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  logoutAbsenFetch: (token,id) => dispatch(logoutAbsenFetch(token,id)),
+  absenFetch: (token,lokasi) => dispatch(absenFetch(token,lokasi)),
+  setID: (id_presensi) => dispatch(setID(id_presensi)),
+  destroyID: (id_presensi) => dispatch(destroyID(id_presensi))
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AbsenScreen)

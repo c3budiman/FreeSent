@@ -13,6 +13,7 @@
     "pusher-js": "^4.2.2",
     "react": "16.3.1",
     "react-native": "0.55.4",
+    "react-native-rename": "^2.2.2",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.0.4",
     "react-redux": "^5.0.7",

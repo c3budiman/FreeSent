@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native'
 
 const INIT_STATE = {
   token: '',
+  id_presensi: '',
 }
 
 const auth = (state = INIT_STATE, action) => {
@@ -15,8 +16,14 @@ const auth = (state = INIT_STATE, action) => {
     case 'Login_token':
         return {...state, token:action.payload.token}
         break;
-    case 'terlogin':
-        return {...state, terlogin:action.payload.terlogin}
+    case 'sukses_absen':
+        return {...state, id_presensi:action.payload.id_presensi}
+        break;
+    case 'setID':
+        return {...state, id_presensi:action.payload.id_presensi}
+        break;
+    case 'destroyID':
+        return {...state, id_presensi:null}
         break;
     default:
       return state

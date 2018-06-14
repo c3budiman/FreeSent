@@ -22,6 +22,7 @@ use Auth;
 use Carbon\Carbon;
 use App\DataTables\presensiDataTable;
 use App\Events\dbEvent;
+use App\manajerSetting;
 
 
 class manajerController extends Controller
@@ -125,6 +126,42 @@ class manajerController extends Controller
       return response()->json($response,200);
   }
 
+  public function getSettingPresensi() {
+    return view('manajerSetting.manajerSetting');
+  }
+
+  public function newSettingPresensi(Request $request) {
+    $settingPresensi = new manajerSetting();
+    $settingPresensi->id_manajer = Auth::User()->id;
+    $settingPresensi->lokasi_region = $request->lokasi;
+
+    $base = "https://maps.googleapis.com/maps/api/geocode/json";
+    $location = $request->lokasi;
+    $key = "AIzaSyBUS0DbuqGat2a2hvg7C1cJYonlVWBN938";
+    $url = $base . '?latlng=' . $location . '&key=' . $key;
+    $apidecode = json_decode(file_get_contents($url));
+
+    $settingPresensi->lokasi_proximity = $apidecode->results[2]->formatted_address;
+    $settingPresensi->buka_absen = "true";
+    $settingPresensi->save();
+    return redirect('/settingpresensi')->with('status', 'Setting Berhasil Di Update!');
+  }
+
+  public function updateSettingPresensi(Request $request) {
+    $settingPresensi = manajerSetting::where('id_manajer','=',Auth::User()->id)->first();
+    $settingPresensi->lokasi_region = $request->lokasi;
+    if (DB::table('manajer_settings')->where('id_manajer','=',Auth::User()->id)->get()->first()->lokasi_region != $request->lokasi) {
+      $base = "https://maps.googleapis.com/maps/api/geocode/json";
+      $location = $request->lokasi;
+      $key = "AIzaSyBUS0DbuqGat2a2hvg7C1cJYonlVWBN938";
+      $url = $base . '?latlng=' . $location . '&key=' . $key;
+      $apidecode = json_decode(file_get_contents($url));
+      $settingPresensi->lokasi_proximity = $apidecode->results[2]->formatted_address;
+    }
+    $settingPresensi->buka_absen = $request->buka_absen;
+    $settingPresensi->save();
+    return redirect('/settingpresensi')->with('status', 'Setting Berhasil Di Update!');
+  }
 
 
 }

@@ -44,11 +44,11 @@ const HomeScreenTabNavigator = new TabNavigator(
   Profil: {
     screen: ProfilScreen
   },
-  Absen: {
-    screen: AbsenScreen,
-  },
   Berita: {
     screen: BeritaScreen,
+  },
+  Absen: {
+    screen: AbsenScreen,
   },
 },
 

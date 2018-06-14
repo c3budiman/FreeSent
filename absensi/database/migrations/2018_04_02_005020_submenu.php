@@ -26,23 +26,37 @@ class Submenu extends Migration
 
       DB::table('submenu')->insert(
           array(
-              'kepunyaan' => 4,
+              'kepunyaan' => 5,
               'nama' => 'Menu Sidebar',
               'link' => '/sidebarsettings'
           )
       );
       DB::table('submenu')->insert(
           array(
-              'kepunyaan' => 4,
+              'kepunyaan' => 5,
               'nama' => 'Logo dan Favicon',
               'link' => '/logodanfavicon'
           )
       );
       DB::table('submenu')->insert(
           array(
-              'kepunyaan' => 4,
+              'kepunyaan' => 5,
               'nama' => 'Judul dan Slogan',
               'link' => '/juduldanslogan'
+          )
+      );
+      DB::table('submenu')->insert(
+          array(
+              'kepunyaan' => 8,
+              'nama' => 'Tabel Presensi',
+              'link' => '/presensi'
+          )
+      );
+      DB::table('submenu')->insert(
+          array(
+              'kepunyaan' => 8,
+              'nama' => 'Presensi By Date',
+              'link' => '/presensi/range'
           )
       );
     }

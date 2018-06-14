@@ -35,6 +35,7 @@ class AbsenScreen extends Component {
     this.canMockLocation = JailMonkey.canMockLocation()
     this.trustFall = JailMonkey.trustFall()
     this.setState({trustedDevice: this.trustFall})
+    this.fetchLocation()
   }
 
   componentDidMount() {
@@ -43,8 +44,10 @@ class AbsenScreen extends Component {
         this.props.setID(data)
       }
     }).done()
+    this.fetchLocation()
+  }
 
-
+  fetchLocation() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -61,6 +64,7 @@ class AbsenScreen extends Component {
   doAbsen() {
     if (this.state.latitude === null || this.state.longitude === null) {
       alert('Error! pastikan gps menyala!')
+      this.fetchLocation()
     } else {
       this.props.absenFetch(this.props.auth.token , this.state.latitude + ',' + this.state.longitude)
     }

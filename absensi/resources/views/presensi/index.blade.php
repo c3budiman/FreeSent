@@ -173,67 +173,6 @@
   <script type="text/javascript">
 
   $(document).ready(function() {
-    // ShowModals
-      $(document).on('click', '#tambah', function() {
-          $('#signup-modal').modal('show');
-      });
-
-      // ShowModals
-        $(document).on('click', '#tambah2', function() {
-            $('#tambahbyregistered').modal('show');
-        });
-
-      $("#submit").click(function(){
-        $.ajax({
-            type: "POST",
-            url: "/karyawanregistrasi",
-            dataType: "json",
-            data: {
-              '_token': $('input[name=_token]').val(),
-              email: $("#emaildaftar").val(),
-              nama: $("#namadaftar").val(),
-              avatar: "avatar/avatar.png",
-              roles_id: "3",
-              password: $("#passworddaftar").val(),
-            },
-            success: function (data, status) {
-                $('#signup-modal').modal('hide');
-                $("#emaildaftar").val(''),
-                $("#namadaftar").val(''),
-                $("#passworddaftar").val(''),
-                $('.datatable').DataTable().ajax.reload(null, false);
-            },
-            error: function (request, status, error) {
-                console.log(request.responseJSON);
-                $.each(request.responseJSON.errors, function( index, value ) {
-                  alert( value );
-                });
-            }
-        });
-      });
-
-      $("#submit2").click(function(){
-        $.ajax({
-            type: "POST",
-            url: "/karyawanregistrasiv2",
-            dataType: "json",
-            data: {
-              '_token': $('input[name=_token]').val(),
-              id_user: $('select[name=id_karyawan]').val(),
-            },
-            success: function (data, status) {
-                location.reload();
-                $('.datatable').DataTable().ajax.reload(null, false);
-            },
-            error: function (request, status, error) {
-                console.log(request.responseJSON);
-                $.each(request.responseJSON.errors, function( index, value ) {
-                  alert( value );
-                });
-            }
-        });
-      });
-
       $(document).on('click', '.delete-modal', function() {
           $('#footer_action_button').text(" Delete");
           $('#footer_action_button').removeClass('glyphicon-check');
@@ -260,7 +199,7 @@
                 id: $("#iddelete").val(),
               },
               success: function (data, status) {
-                  $('.datatable').DataTable().ajax.reload(null, false);
+                  $('.dataTable').DataTable().ajax.reload(null, false);
               },
               error: function (request, status, error) {
                   console.log($("#iddelete").val());

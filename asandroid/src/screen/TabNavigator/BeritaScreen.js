@@ -66,12 +66,12 @@ class BeritaScreen extends Component {
               </Body>
             </Left>
             <Badge info>
-              <Text style={{padding: 5, color: '#fff'}}>{pic.judul}</Text>
+              <Text style={{padding: 5, color: '#fff'}}>Pengumuman</Text>
             </Badge>
           </CardItem>
           <CardItem cardBody>
 
-            <Text note>&emsp;{striptags(pic.content).substr(0,100)}</Text>
+            <Text note>&emsp;{striptags(pic.judul).substr(0,100)}</Text>
           </CardItem>
           <CardItem>
             <Left>
@@ -82,7 +82,7 @@ class BeritaScreen extends Component {
             </Body>
             <Right>
               <Button transparent dark onPress={ ()=>{ Linking.openURL('http://localhost:8000/berita/'+pic.id_berita)}}>
-                <Text>Read More..</Text>
+                <Text>Baca..</Text>
               </Button>
             </Right>
           </CardItem>

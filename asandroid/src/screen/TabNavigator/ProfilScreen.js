@@ -17,7 +17,9 @@ class ProfilScreen extends Component {
   super(props);
   this.state = {
       Presensi: null,
-      ListPresensi: []
+      ListPresensi: [],
+      TotalHours: null,
+      Totalnya: null
     };
   }
 
@@ -36,8 +38,12 @@ class ProfilScreen extends Component {
     })
     .then((response) => response.json())
     .then((json) => {
-      this.setState({Presensi: json})
-      this.mapRekapan()
+      if (json.error) {
+
+      } else {
+        this.setState({Presensi: json.rekap, TotalHours: json.total_hours})
+        this.mapRekapan()
+      }
     })
     .catch((error) => {
       console.log(error)
@@ -52,7 +58,7 @@ class ProfilScreen extends Component {
     });
     var channel = pusher.subscribe('presensiEvent');
     channel.bind('App\\Events\\presensiEvent', function(data) {
-      this.setState({Presensi: data.message.original})
+      this.setState({Presensi: data.message.original.rekap, TotalHours: data.message.original.total_hours})
       this.mapRekapan()
     }.bind(this))
   }
@@ -89,7 +95,15 @@ class ProfilScreen extends Component {
                     </Col>
                   </Row>
                   {this.state.ListPresensi}
+                  <Row>
+                    <Col style={styles.container} >
+                          <Text style={{alignSelf: "center", color:'#fff', marginTop:15}}>Total Durasi : </Text>
+                    </Col>
 
+                    <Col style={styles.border}>
+                          <Text style={{alignSelf: "center", marginTop:15}}>{this.state.TotalHours}</Text>
+                    </Col>
+                  </Row>
                 </Grid>
             </Content>
         </Container>
@@ -103,6 +117,13 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#000',
     backgroundColor: '#17a2b8',
+    height: 50
+  },
+  container2: {
+    borderRadius: 0,
+    borderWidth: 0.5,
+    borderColor: '#000',
+    backgroundColor: '#180354',
     height: 50
   },
   border: {

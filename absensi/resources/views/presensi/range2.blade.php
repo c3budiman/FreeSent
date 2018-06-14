@@ -45,7 +45,7 @@
                                   <td>{{$res->id_tabel}}</td>
                                   <td>{{$res->karyawan->email}}</td>
                                   <td>{{$res->karyawan->nama}}</td>
-                                  <td>{{$res->lokasi_absen}}</td>
+                                  <td>{{$res->lokasi_real}}</td>
                                   <td>{{$res->waktu_absen}}</td>
                                   <td>{{$res->waktu_logout}}</td>
                                   <td>{{$res->durasi_pekerjaan}}</td>
@@ -54,6 +54,22 @@
                               @endforeach
                           </table>
                           {{ $result->links() }}
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-3 col-form-label">Total Durasi Pekerjaan : </label>
+                          <div class="col-9">
+                            @php
+                            $jumlah=0;
+                            foreach ($result as $res) {
+                              $str_time = $res->durasi_pekerjaan;
+                              sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
+                              $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+                              $jumlah = $time_seconds + $jumlah;
+                            }
+                            $total_waktu = gmdate('H:i:s', $jumlah);
+                            @endphp
+                              <input disabled type="text" class="form-control" value="{{$total_waktu}}">
+                          </div>
                       </div>
                       @else
                         <div class="form-group row">
@@ -107,8 +123,6 @@
                           <button id="submit" class="btn w-lg btn-rounded btn-primary waves-effect waves-light" type="submit">Cari</button>
                         </div>
                       </form>
-
-
                   </div>
               </div>
           </div>

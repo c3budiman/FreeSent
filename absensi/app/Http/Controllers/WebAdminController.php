@@ -384,7 +384,7 @@ class WebAdminController extends Controller
       $berita->content = $request->content;
       $berita->save();
 
-      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = berita::with('authornya.role')->latest()->get();
       $berita2 = response()->json($berita2);
       event(new beritaEvent($berita2));
       return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
@@ -398,7 +398,7 @@ class WebAdminController extends Controller
       $berita->content = $request->content;
       $berita->save();
 
-      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = berita::with('authornya.role')->latest()->get();
       $berita2 = response()->json($berita2);
       event(new beritaEvent($berita2));
       return redirect('berita')->with('status', 'Berita berhasil ditambahkan!');
@@ -408,7 +408,7 @@ class WebAdminController extends Controller
       $berita = berita::find($request->id_berita);
       $berita->delete();
 
-      $berita2 = berita::with('authornya.role')->get();
+      $berita2 = berita::with('authornya.role')->latest()->get();
       $berita2 = response()->json($berita2);
       event(new beritaEvent($berita2));
 

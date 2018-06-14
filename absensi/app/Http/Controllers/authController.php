@@ -33,7 +33,7 @@ class authController extends Controller
     } elseif (Auth::User()->roles_id == 2) {
       return view('dashboard.DashManajer');
     } else {
-      return 'hai pengguna! saat ini belom ada view nya karena yg buat males nambahin :V buat logout ketik /logout di akhiran lalu enter';
+      return view('dashboard.DashUser');
     }
   }
 
@@ -43,6 +43,10 @@ class authController extends Controller
 
   public function getEditProfile() {
     return view('editprofile');
+  }
+
+  public function getSupport() {
+    return view('support');
   }
 
   public function UpdateProfile(Request $request) {
@@ -64,7 +68,7 @@ class authController extends Controller
           $file_lama = str_replace("storage","public",Auth::User()->avatar);
           Storage::delete($file_lama);
         }
-        
+
         //update db
         $users = Auth::user();
         $users->email = strip_tags(Input::get('email'));

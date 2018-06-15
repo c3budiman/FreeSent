@@ -5,13 +5,45 @@ import ProfilScreen from './TabNavigator/ProfilScreen'
 import Home from './TabNavigator/BeritaScreen'
 import { connect } from 'react-redux'
 import { logout } from '../action'
-import { BASE_URL } from '../env'
+import { BASE_URL, BASE } from '../env'
 import { StackActions,NavigationActions } from 'react-navigation';
 import LoginScreen from './LoginScreen'
 
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+        Setting: null,
+        Logo: null,
+        Favicon: null,
+        Slogan: null
+      };
+  }
+
+  getSettingSitus(token) {
+    fetch(BASE_URL+"api/setting", {
+      method: "GET",
+      headers: {
+        'Accept' : 'application/json',
+        'Authorization' : 'Bearer ' + token
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.error) {
+
+      } else {
+        this.setState({Logo: json.data.logo, Favicon: json.data.favicon, Slogan: json.data.slogan})
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }
+
+
+  componentDidMount() {
+    this.getSettingSitus(this.props.auth.token)
   }
 
   render() {
@@ -37,7 +69,7 @@ class SideBar extends React.Component {
         <Content>
           <Image
             source={{
-              uri: "https://github.com/c3budiman/FreeSent/blob/master/absensi/public/images/logo.png?raw=true"
+              uri: BASE+this.state.Favicon
             }}
             style={{
               backgroundColor: '#fff',
@@ -50,6 +82,7 @@ class SideBar extends React.Component {
               marginBottom: 20,
             }}>
           </Image>
+          <Text style={{color:"#000", alignSelf: "center",marginBottom: 10, marginLeft:15, marginRight:10}} note> &emsp; <Icon name="md-remove" style={{fontSize:10}} /> {this.state.Slogan}</Text>
         <List>
           <ListItem
             button

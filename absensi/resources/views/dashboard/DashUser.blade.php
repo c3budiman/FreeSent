@@ -7,7 +7,36 @@
 
 
 @section('content')
-hai user!
+  @php
+    $berita = DB::table('berita')->get()->take(3);
+  @endphp
+  <div class="row">
+  @foreach ($berita as $berita)
+    <div class="col-lg-4">
+        <div class="card-box ribbon-box">
+            <div class="ribbon ribbon-custom">Pengumuman</div>
+            <p> <b>{{$berita->judul}}</b>  </p>
+            <p class="m-b-0">{{substr(strip_tags($berita->content),0,100)}}</p>
+            <a class="btn btn-sm btn-info pull-right" href="/berita/{{$berita->id_berita}}">Baca...</a>
+            <div style="padding-bottom: 25px;">
+
+            </div>
+        </div>
+    </div>
+  @endforeach
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card m-b-30">
+        <h6 class="card-header">FreeSent App</h6>
+        <div class="card-body">
+            <h5 class="card-title">FreeSent App</h5>
+            <p class="card-text">Agar anda dapat mengisi presensi, silahkan download app kami.</p>
+            <a type="button" href="/App/freesent.apk" class="btn btn-primary waves-effect waves-light"> <i class="fa fa-download m-r-5"></i> <span>Download</span> </a>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 

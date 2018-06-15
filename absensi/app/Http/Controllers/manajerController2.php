@@ -25,6 +25,17 @@ use App\Events\dbEvent;
 
 class manajerController2 extends Controller
 {
+    public function getRoleManajer() {
+      $manajer = DB::table('roles')->where('id','=','2')->get()->first()->namaRule;
+      return $manajer;
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('rule:'.$this->getRoleManajer().',nothingelse');
+    }
+  
     public function range() {
       return view('presensi.range');
     }

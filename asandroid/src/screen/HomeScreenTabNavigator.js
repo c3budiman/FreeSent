@@ -10,23 +10,15 @@ import BeritaScreen from './TabNavigator/BeritaScreen'
 import { Button, Text, Icon, Footer, FooterTab } from "native-base";
 import { Container, Item, Input, Header, Body, Content, Title, Label, Left, Right } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import HeaderLoggedIn from '../Layouts/HeaderLoggedIn'
 import LoginScreen from './LoginScreen'
+import { BASE_URL, BASE } from '../env'
+import HeaderFreesent from '../Layouts/HeaderLoggedIn'
 
 export default class AppTabNavigator extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
           header: (
-          <Header style={{backgroundColor: '#01a3af'}} >
-              <Left>
-                <Button transparent onPress={() => navigation.openDrawer()}>
-                  <Icon name='menu' />
-                </Button>
-              </Left>
-              <Body>
-                <Title>FreeSent App</Title>
-              </Body>
-          </Header>
+          <HeaderFreesent navigation={{ navigation }} />
         )
       }
   }

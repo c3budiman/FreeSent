@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Left, Right, Button, Icon, Body, Title, Thumbnail } from 'native-base';
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
-import HomeScreen from './HomeScreen'
 import ProfilScreen from './TabNavigator/ProfilScreen'
 import Home from './TabNavigator/BeritaScreen'
 import SideBar from './SideBar'

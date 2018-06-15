@@ -53,16 +53,19 @@ class authController extends Controller
     if ($request->hasFile('tes')) {
       $namafile = $request->file('tes')->getClientOriginalName();
       $ext = $request->file('tes')->getClientOriginalExtension();
-      $lokasifileskr = '/storage/avatar/'.$namafile;
+      $newNamaFile = Auth::User()->email .'-id_'. Auth::User()->id . '.' .$ext;
+      $lokasifileskr = '/storage/avatar/'.$newNamaFile;
       // cek jika file sudah ada...
       if(Storage::has("public/avatar/".$namafile)) {
-        return Redirect::back()->withErrors(['File sudah ada, coba rename file!']);
+        $file_lama = str_replace("storage","public",Auth::User()->avatar);
+        Storage::delete($file_lama);
+        return Redirect::back()->withErrors(['File sudah ada, Kok bisa gituh sih? tar saya delete dlu... silahkan coba upload lagi!']);
       }
       // yg paling penting cek extension, no php allowed
       if ($ext == "png" || $ext == "jpg") {
         //store
         $destinasi = public_path('storage/avatar/');
-        $proses = $request->file('tes')->move($destinasi,$namafile);
+        $proses = $request->file('tes')->move($destinasi,$newNamaFile);
         //delete foto sebelumnya jika ada....
         if (Auth::User()->avatar != null || Auth::User()->avatar != "") {
           $file_lama = str_replace("storage","public",Auth::User()->avatar);

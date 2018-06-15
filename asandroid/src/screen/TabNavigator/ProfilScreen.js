@@ -46,7 +46,7 @@ class ProfilScreen extends Component {
       }
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
     })
   }
 
@@ -100,8 +100,8 @@ class ProfilScreen extends Component {
                           <Text style={{alignSelf: "center", color:'#fff', marginTop:15}}>Total Durasi : </Text>
                     </Col>
 
-                    <Col style={styles.border}>
-                          <Text style={{alignSelf: "center", marginTop:15}}>{this.state.TotalHours}</Text>
+                    <Col style={styles.container2}>
+                          <Text style={{alignSelf: "center", color:'#fff', marginTop:15}}>{this.state.TotalHours}</Text>
                     </Col>
                   </Row>
                 </Grid>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderWidth: 0.5,
     borderColor: '#000',
-    backgroundColor: '#180354',
+    backgroundColor: '#10cb00',
     height: 50
   },
   border: {

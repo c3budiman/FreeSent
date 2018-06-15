@@ -69,6 +69,22 @@ Route::get('tesbet', function() {
 
 
 
+/*
+|--------------------------------------------------------------------------
+| User Roles
+|--------------------------------------------------------------------------
+|
+| Ini route buat User Only
+|
+*/
+
+
+Route::get('rekap/range/{range1}/{range2}', 'UserController@getPresensiByRange');
+Route::post('rekap/range/{range1}/{range2}', 'UserController@postPresensiRange');
+Route::get('rekap','UserController@getRekap');
+Route::post('rekap', 'UserController@postPresensiRange');
+
+
 
 /*
 |--------------------------------------------------------------------------

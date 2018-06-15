@@ -1,8 +1,3 @@
-Android udah kelar paling klo mau dibagusin di bagian rekap sama absen ditambah timer.
-1. android fetch setting biar logo ganti klo diganti
+Beres!
 
-Untuk web kek nya masih ada pr.
-1. Front end user
-
-
-
+klo mau di bagusin lagi : timer di android, support pages di web.

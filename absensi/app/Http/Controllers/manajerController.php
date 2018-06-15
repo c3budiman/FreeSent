@@ -32,7 +32,6 @@ class manajerController extends Controller
     return $manajer;
   }
 
-
   public function __construct()
   {
       $this->middleware('auth');

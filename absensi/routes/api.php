@@ -14,4 +14,6 @@ Route::middleware('auth:api')->group(function () {
   Route::post('absen','apiController@handlePostPresensi');
   Route::post('logoutabsen','apiController@handlePostLogoutPresensi');
   Route::get('berita', 'apiController@getSemuaBerita');
+  Route::get('setting', 'apiController@getSettingSitus');
 });
+Route::get('setting', 'apiController@getSettingSitus');

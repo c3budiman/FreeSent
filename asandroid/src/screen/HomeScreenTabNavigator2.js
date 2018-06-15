@@ -11,21 +11,14 @@ import { Button, Text, Icon, Footer, FooterTab } from "native-base";
 import { Container, Item, Input, Header, Body, Content, Title, Label, Left, Right } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import LoginScreen from './LoginScreen'
+import { BASE_URL, BASE } from '../env'
+import HeaderFreesent from '../Layouts/HeaderLoggedIn'
 
-export default class AppTabNavigator2 extends Component {
+export default class AppTabNavigator extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-          header: ( /* Your custom header */
-          <Header style={{backgroundColor: '#01a3af'}} >
-              <Left>
-                <Button transparent onPress={() => navigation.openDrawer()}>
-                  <Icon name='menu' />
-                </Button>
-              </Left>
-              <Body>
-                <Title>FreeSent App</Title>
-              </Body>
-          </Header>
+          header: (
+          <HeaderFreesent navigation={{ navigation }} />
         )
       }
   }

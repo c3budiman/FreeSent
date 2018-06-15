@@ -1,8 +1,7 @@
-Android udah kelar paling klo mau dibagusin di bagian rekap sama absen ditambah timer.
-1. android fetch setting biar logo ganti klo diganti
+1. android fetch tinggal bagian header, judul nya.
+dan kek nya perlu dirapiin gara gara lu buat apa bikin header di luar padahal lu bikin manual di tiap props.... :(
 
-Untuk web kek nya masih ada pr.
-1. Front end user
+
 
 
 

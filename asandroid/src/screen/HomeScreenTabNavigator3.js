@@ -10,7 +10,6 @@ import BeritaScreen from './TabNavigator/BeritaScreen'
 import { Button, Text, Icon, Footer, FooterTab } from "native-base";
 import { Container, Item, Input, Header, Body, Content, Title, Label, Left, Right } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import HeaderLoggedIn from '../Layouts/HeaderLoggedIn'
 import LoginScreen from './LoginScreen'
 
 export default class AppTabNavigator3 extends Component {

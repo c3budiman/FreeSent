@@ -6,14 +6,39 @@ import HeaderFreesent from '../Layouts/Header'
 import { StackActions,NavigationActions } from 'react-navigation';
 import { loginFetch,setToken } from '../action'
 import { connect } from 'react-redux'
+import { BASE_URL, BASE } from '../env'
 
 class LoginScreen extends Component {
   constructor(props) {
   super(props)
   this.state = {
       email: 'tes123@gmail.com',
-      password: 'c3543211'
+      password: 'c3543211',
+      Setting: null,
+      Logo: null,
+      Favicon: null,
+      Slogan: null
     }
+  }
+
+  getSettingSitus() {
+    fetch(BASE_URL+"api/setting", {
+      method: "GET",
+      headers: {
+        'Accept' : 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.error) {
+
+      } else {
+        this.setState({Logo: json.data.logo, Favicon: json.data.favicon, Slogan: json.data.slogan})
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
   }
 
   componentDidMount(){
@@ -22,6 +47,7 @@ class LoginScreen extends Component {
         this.props.setToken(data)
       }
     }).done()
+    this.getSettingSitus()
   }
 
   //This one add my custom header....
@@ -53,9 +79,9 @@ class LoginScreen extends Component {
         <Content padder>
           <Image
             style={{width: 100, height: 100, alignSelf: "center", marginTop: 5, marginBottom: 10}}
-            source={{uri: 'https://github.com/c3budiman/FreeSent/blob/master/absensi/public/images/logo.png?raw=true'}}
+            source={{uri: BASE+this.state.Favicon}}
           />
-          <Text style={{alignSelf: "center",marginBottom: 10}} note> &emsp; <Icon name="md-remove" style={{fontSize:10}} /> Kemudahan Absen, kini bisa dilakukan secara daring melalui segala jenis perangkat.</Text>
+          <Text style={{alignSelf: "center",marginBottom: 10}} note> &emsp; <Icon name="md-remove" style={{fontSize:10}} /> {this.state.Slogan}</Text>
           <Item floatingLabel style={{marginBottom: 10}}>
             <Label>Email</Label>
             <Input itemType="email" name="email" value={this.state.email} onChangeText={(email) => this.setState({email})} />

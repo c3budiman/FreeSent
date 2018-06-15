@@ -154,4 +154,9 @@ class apiController extends Controller
       return response()->json($berita);
     }
 
+    public function getSettingSitus() {
+      $setting = DB::table('setting_situses')->where('id','=','1')->get()->first();
+      return response()->json(['data'=>$setting], 200);
+    }
+
 }

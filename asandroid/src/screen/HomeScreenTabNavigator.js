@@ -10,10 +10,18 @@ import BeritaScreen from './TabNavigator/BeritaScreen'
 import { Button, Text, Icon, Footer, FooterTab } from "native-base";
 import { Container, Item, Input, Header, Body, Content, Title, Label, Left, Right } from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import HeaderLoggedIn from '../Layouts/HeaderLoggedIn'
 import LoginScreen from './LoginScreen'
 
 export default class AppTabNavigator extends Component {
+
+  constructor(props) {
+  super(props);
+  this.state = {
+      Berita: null,
+      Posts: []
+    };
+  }
+  
   static navigationOptions = ({ navigation }) => {
     return {
           header: (
@@ -31,6 +39,7 @@ export default class AppTabNavigator extends Component {
       }
   }
   render() {
+    console.log(this)
       return (
         <Container>
           <HomeScreenTabNavigator screenProps={{ navigation: this.props.navigation }}/>

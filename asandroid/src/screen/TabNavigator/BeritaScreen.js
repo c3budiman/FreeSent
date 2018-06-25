@@ -19,6 +19,9 @@ class BeritaScreen extends Component {
 
   componentDidMount() {
     this.getSemuaBerita(this.props.auth.token)
+    if (this.state.Berita) {
+      this.mapBerita()
+    }
     this.ListenerPusher()
   }
 
@@ -31,7 +34,6 @@ class BeritaScreen extends Component {
     var channel = pusher.subscribe('beritaEvent');
     channel.bind('App\\Events\\beritaEvent', function(data) {
       this.setState({Berita: data.message.original})
-      this.mapBerita()
     }.bind(this))
   }
 
@@ -47,9 +49,10 @@ class BeritaScreen extends Component {
     .then((json) => {
       this.setState({Berita: json})
       this.mapBerita()
+
     })
     .catch((error) => {
-      console.log(error)
+      console.error(error)
     })
   }
 
@@ -59,7 +62,7 @@ class BeritaScreen extends Component {
         <Card key={pic.id_berita}>
           <CardItem>
             <Left>
-              <Thumbnail source={{uri: 'http://localhost:8000'+pic.authornya.avatar}} />
+              <Thumbnail source={{uri: BASE_URL+pic.authornya.avatar}} />
               <Body>
                 <Text>{pic.authornya.nama}</Text>
                 <Text note>{pic.authornya.role.namaRule}</Text>
@@ -81,7 +84,7 @@ class BeritaScreen extends Component {
 
             </Body>
             <Right>
-              <Button transparent dark onPress={ ()=>{ Linking.openURL('http://localhost:8000/berita/'+pic.id_berita)}}>
+              <Button transparent dark onPress={ ()=>{ Linking.openURL(BASE_URL+'berita/'+pic.id_berita)}}>
                 <Text>Baca..</Text>
               </Button>
             </Right>

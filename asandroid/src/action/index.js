@@ -77,7 +77,7 @@ export const absenFetch = (token,lokasi) => {
     })
     .catch((error) => {
       alert('error! pastikan gps anda dinyalakan!')
-      console.log(error)
+      console.error(error)
     })
   }
 }

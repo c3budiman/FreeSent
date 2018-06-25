@@ -39,7 +39,6 @@ export default class HeaderFreesent extends Component {
   }
 
   render(){
-    console.log(this)
     return (
         <Header style={{backgroundColor: '#01a3af'}} >
             <Left>

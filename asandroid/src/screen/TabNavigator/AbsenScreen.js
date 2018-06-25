@@ -57,16 +57,16 @@ class AbsenScreen extends Component {
         });
       },
       (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: false, timeout: 20000 },
     );
   }
 
   doAbsen() {
-    if (this.state.latitude === null || this.state.longitude === null) {
+    if (this.state.latitude) {
+      this.props.absenFetch(this.props.auth.token , this.state.latitude + ',' + this.state.longitude)
+    } else {
       alert('Error! pastikan gps menyala!')
       this.fetchLocation()
-    } else {
-      this.props.absenFetch(this.props.auth.token , this.state.latitude + ',' + this.state.longitude)
     }
   }
 
@@ -91,10 +91,17 @@ class AbsenScreen extends Component {
                         }}
                         >
               <CardItem cardBody>
-                <Text note>Silahkan aktifkan terlebih dahulu GPS anda dan tunggu beberapa menit,
-                agar Lokasi yang dilaporkan sesuai. Jangan pernah menggunakan vpn atau alat menipu gps,
+                <Text note>Silahkan aktifkan terlebih dahulu GPS anda dan tunggu beberapa saat hingga aplikasi berhasil mendapatkan lokasi anda,
+                Jangan pernah menggunakan vpn atau alat menipu gps,
                 jika terdeteksi sistem akun anda akan di nonaktifkan </Text>
               </CardItem>
+              <CardItem>
+                <Text>Latitude: {this.state.latitude}</Text>
+              </CardItem>
+              <CardItem>
+                <Text>Longitude: {this.state.longitude}</Text>
+              </CardItem>
+              {this.state.error ? <Text>Error: {this.state.error}</Text>: null}
 
               <CardItem>
                 <Button large rounded success
@@ -134,6 +141,15 @@ class AbsenScreen extends Component {
                   sistem akan melogout otomatis pada pukul 18.00 WIB,
                   lupa melogout sebanyak 3x akan dikenakan sanksi</Text>
               </CardItem>
+              <CardItem>
+                <Text>Latitude: {this.state.latitude}</Text>
+              </CardItem>
+              <CardItem>
+                <Text>Longitude: {this.state.longitude}</Text>
+                {this.state.error ? <Text>Error: {this.state.error}</Text>: null}
+              </CardItem>
+
+
 
               <CardItem>
                 <Button large rounded danger

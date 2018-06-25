@@ -25,6 +25,7 @@ class ProfilScreen extends Component {
 
   componentDidMount() {
     this.getRekapan(this.props.auth.token)
+
     this.ListenerPusher()
   }
 
@@ -42,7 +43,9 @@ class ProfilScreen extends Component {
 
       } else {
         this.setState({Presensi: json.rekap, TotalHours: json.total_hours})
-        this.mapRekapan()
+        if (json.rekap) {
+          this.mapRekapan()
+        }
       }
     })
     .catch((error) => {

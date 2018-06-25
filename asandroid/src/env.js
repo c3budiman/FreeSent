@@ -1,3 +1,3 @@
-export const LOGIN_URL = 'http://localhost:8000/api/login'
-export const BASE_URL = 'http://localhost:8000/'
-export const BASE = 'http://localhost:8000'
+export const LOGIN_URL = 'https://freesent.me/api/login'
+export const BASE_URL = 'https://freesent.me/'
+export const BASE = 'https://freesent.me'

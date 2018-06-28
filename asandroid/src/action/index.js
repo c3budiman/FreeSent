@@ -67,7 +67,7 @@ export const absenFetch = (token,lokasi) => {
       if (json.error) {
         alert(json.error)
       } else {
-        alert('anda berhasil mengisi presensi')
+        Alert.alert('Sukses','anda berhasil mengisi presensi')
         AsyncStorage.setItem('id_presensi', json.id_presensi.toString()).then(
           () => {
             dispatch(absen_sukses(json.id_presensi.toString()))
@@ -76,7 +76,7 @@ export const absenFetch = (token,lokasi) => {
       }
     })
     .catch((error) => {
-      alert('error! pastikan gps anda dinyalakan!')
+      Alert.alert('Error!','Pastikan gps anda dinyalakan!')
       console.error(error)
     })
   }

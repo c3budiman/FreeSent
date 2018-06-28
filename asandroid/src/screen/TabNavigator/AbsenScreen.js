@@ -5,6 +5,7 @@ import {
   Image,
   WebView,
   AsyncStorage,
+  Alert,
   StyleSheet
 } from "react-native";
 import { Container, Header, Card, CardItem, Content, Form, Badge,
@@ -65,7 +66,7 @@ class AbsenScreen extends Component {
     if (this.state.latitude) {
       this.props.absenFetch(this.props.auth.token , this.state.latitude + ',' + this.state.longitude)
     } else {
-      alert('Error! pastikan gps menyala!')
+      Alert.alert('Error!','Pastikan gps menyala!')
       this.fetchLocation()
     }
   }

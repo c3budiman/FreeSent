@@ -209,7 +209,7 @@
           },
           processing: true,
           serverSide: true,
-          ajax: 'http://localhost:8000/submenu/json/{{$id}}',
+          ajax: '/submenu/json/{{$id}}',
           columns: [
               {data: 'id', name: 'id'},
               {data: 'kepunyaan', name: 'kepunyaan'},

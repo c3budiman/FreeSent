@@ -97,36 +97,6 @@
 
                           </div>
                         @endif
-
-                        <h4 class="m-t-0 header-title">Mencari Berdasar Range</h4>
-                        <p class="text-muted font-14 m-b-30">
-                            Silahkan masukkan dari tanggal berapa ke tanggal berapa, presensi yang ingin anda lihat
-                        </p>
-                        <form action="{{url(action('UserController@postPresensiRange'))}}" method="post">
-                          {{ csrf_field() }}
-                          <div class="form-group row">
-                              <label class="col-2 col-form-label">Tanggal Mulai : </label>
-                              @php
-                                $current = url()->current();
-                                $current = str_replace(URL::to('/'), '',$current);
-                                $current = str_replace('/rekap/range', '',$current);
-                              @endphp
-                              <div class="col-10">
-                                  <input class="form-control" type="date" name="date1">
-                              </div>
-                          </div>
-
-                          <div class="form-group row">
-                              <label class="col-2 col-form-label">Tanggal Akhir : </label>
-                              <div class="col-10">
-                                  <input class="form-control" type="date" name="date2">
-                              </div>
-                          </div>
-
-                          <div class="pull-right">
-                            <button id="submit" class="btn w-lg btn-rounded btn-primary waves-effect waves-light" type="submit">Cari</button>
-                          </div>
-                        </form>
                     </div>
                 </div>
             </div>

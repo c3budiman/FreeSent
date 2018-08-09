@@ -16,9 +16,9 @@ class CreateManajerSettingsTable extends Migration
         Schema::create('manajer_settings', function (Blueprint $table) {
             $table->increments('id_tabel');
             $table->unsignedInteger('id_manajer')->nullable();
-            $table->string('lokasi_region');
-            $table->string('lokasi_proximity');
-            $table->string('buka_absen');
+            $table->string('lokasi_region',100);
+            $table->string('lokasi_proximity',100);
+            $table->string('buka_absen',50);
             $table->timestamps();
         });
 

@@ -16,8 +16,8 @@ class Submenu extends Migration
       Schema::create('submenu', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('kepunyaan')->nullable();
-          $table->string('nama');
-          $table->string('link');
+          $table->string('nama',100);
+          $table->string('link',100);
       });
 
       Schema::table('submenu', function(Blueprint $kolom){

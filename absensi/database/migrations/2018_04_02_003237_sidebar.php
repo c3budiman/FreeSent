@@ -16,9 +16,9 @@ class Sidebar extends Migration
       Schema::create('dashmenu', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('kepunyaan')->nullable();
-          $table->string('class_css');
-          $table->string('nama');
-          $table->string('link');
+          $table->string('class_css',60);
+          $table->string('nama',100);
+          $table->string('link',100);
       });
 
       Schema::table('dashmenu', function(Blueprint $kolom){

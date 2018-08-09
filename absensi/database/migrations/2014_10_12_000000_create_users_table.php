@@ -15,10 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama');
-            $table->string('email')->unique();
+            $table->string('nama',100);
+            $table->string('email',100)->unique();
             $table->unsignedInteger('roles_id')->nullable();
-            $table->string('avatar');
+            $table->string('avatar',100);
             $table->string('password');
             $table->string('api_token')->nullable();
             $table->rememberToken()->nullable();
@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
 
         Schema::create('roles', function(Blueprint $kolom) {
           $kolom->increments('id');
-          $kolom->string('namaRule');
+          $kolom->string('namaRule',50);
         });
 
         Schema::table('users', function(Blueprint $kolom){

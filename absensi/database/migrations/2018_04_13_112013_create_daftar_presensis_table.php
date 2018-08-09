@@ -18,9 +18,9 @@ class CreateDaftarPresensisTable extends Migration
             $table->increments('id_tabel');
             $table->unsignedInteger('id_manajer')->nullable();
             $table->unsignedInteger('id_karyawan')->nullable();
-            $table->string('lokasi_absen');
+            $table->string('lokasi_absen',100);
             $table->string('lokasi_real');
-            $table->string('lokasi_proximity');
+            $table->string('lokasi_proximity',100);
             $table->timestamp('waktu_absen')->nullable();
             $table->timestamp('waktu_logout')->nullable();
             $table->time('durasi_pekerjaan')->nullable();

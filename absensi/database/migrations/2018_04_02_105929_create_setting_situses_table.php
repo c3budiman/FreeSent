@@ -10,11 +10,11 @@ class CreateSettingSitusesTable extends Migration
     {
         Schema::create('setting_situses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('namaSitus');
-            $table->string('slogan');
-            $table->string('favicon');
-            $table->string('logo');
-            $table->string('alamatSitus');
+            $table->string('namaSitus',50);
+            $table->string('slogan',100);
+            $table->string('favicon',100);
+            $table->string('logo',100);
+            $table->string('alamatSitus',60);
             $table->timestamps();
         });
 

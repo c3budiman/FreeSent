@@ -16,8 +16,8 @@ class Createberita extends Migration
       Schema::create('berita', function (Blueprint $table) {
           $table->increments('id_berita');
           $table->unsignedInteger('author')->nullable();
-          $table->string('uri');
-          $table->string('judul');
+          $table->string('uri',100);
+          $table->string('judul',100);
           $table->text('content');
           $table->timestamps();
       });

@@ -49,11 +49,15 @@ class apiController extends Controller
       $jumlah = 0;
       foreach ($query as $res) {
         $str_time = $res->durasi_pekerjaan;
-        sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
-        $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
-        $jumlah = $time_seconds + $jumlah;
+        $parsed = date_parse($str_time);
+        $seconds = $parsed['hour'] * 3600 + $parsed['minute'] * 60 + $parsed['second'];
+        $jumlah = $seconds + $jumlah;
       }
-      $total_waktu = gmdate('H:i:s', $jumlah);
+      $hours = floor($jumlah / 3600);
+      $minutes = floor(($jumlah / 60) % 60);
+      $seconds = $jumlah % 60;
+
+      $total_waktu = "$hours:$minutes:$seconds";
       return Response()->json(['rekap'=>$query, 'total_hours'=>$total_waktu], 200);
     }
 

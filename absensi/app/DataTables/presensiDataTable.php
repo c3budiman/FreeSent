@@ -86,7 +86,7 @@ class presensiDataTable extends DataTable
           'waktu_absen' => ['data' => 'waktu_absen', 'waktu_absen' => 'waktu_absen'],
           'waktu_logout' => ['data' => 'waktu_logout', 'waktu_logout' => 'waktu_logout'],
           'durasi_pekerjaan' => ['data' => 'durasi_pekerjaan', 'name' => 'durasi_pekerjaan'],
-          'action' => ['data' => 'action', 'name' => 'action', 'orderable'=> false, 'searchable' => false],
+          'action' => ['data' => 'action', 'name' => 'action', 'orderable'=> false, 'printable' => false, 'exportable' => false, 'searchable' => false],
         ];
     }
 

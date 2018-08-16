@@ -48,7 +48,8 @@
         <div class="modal-body">
 
           <div class="deleteContent">
-            Apakah anda yakin akan mendelete karyawan <span class="nama-kar"></span> ?
+            Apakah anda yakin akan mendelete presensi karyawan <span class="nama-kar"></span>
+            <br> dengan id absen : <span class='iddelete'> </span> ?
               <input type="hidden" id="iddelete">
           </div>
 
@@ -183,6 +184,7 @@
           $('.modal-title').text('Delete');
           $('.did').text($(this).data('id'));
           $('.nama-kar').text($(this).data('nama'));
+          $('.iddelete').text($(this).data('id'));
           $('.deleteContent').show();
           $('.form-horizontal').hide();
           $('#iddelete').val($(this).data('id'));

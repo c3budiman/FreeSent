@@ -48,9 +48,23 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-3 col-form-label">Password Baru</label>
+                    <div class="col-9">
+                        <input id="password1" name="password1" type="password" class="form-control" value="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3 col-form-label">Konfirmasi password</label>
+                    <div class="col-9">
+                        <input id="password2" name="password2" type="password" class="form-control" value="">
+                        <br>
+                        <p id="validate-status"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <div class="col-12">
                         <div class="pull-right">
-                            <button type="submit" name="button" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                            <button id="simpan" type="submit" name="button" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
                         </div>
                     </div>
                 </div>
@@ -63,6 +77,37 @@
 @endsection
 
 @section('jstambahan')
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $("#password2").keyup(validate);
+  });
+
+
+  function validate() {
+    var password1 = $("#password1").val();
+    var password2 = $("#password2").val();
+      if(password1 == password2) {
+         //valid
+         $("#password2").css("background-color", "#0acf97");
+         $("#password1").css("background-color", "#0acf97");
+         $("#validate-status").text("password ok!");
+         $("#simpan").prop('disabled', false);
+      }
+      else if (password2 == '') {
+        $("#password1").css("background-color", "");
+        $("#password2").css("background-color", "");
+        $("#validate-status").text("");
+        $("#simpan").prop('disabled', false);
+      }
+      else {
+        $("#password2").css("background-color", "#ff3333");
+        $("#password1").css("background-color", "#ff3333");
+        $("#validate-status").text("password tidak sama!");
+        $("#simpan").prop('disabled', true);
+      }
+
+  }
+  </script>
 <!-- Bootstrap fileupload js -->
 <script src="plugins/bootstrap-fileupload/bootstrap-fileupload.js"></script>
 <!-- Sweet Alert Js  -->

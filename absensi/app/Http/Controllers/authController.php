@@ -13,6 +13,7 @@ use App\Sidebar;
 use Excel;
 use Datatables;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Hash;
 
 class authController extends Controller
 {
@@ -66,6 +67,20 @@ class authController extends Controller
         $destinasi = public_path('storage/avatar/');
         $proses = $request->file('tes')->move($destinasi,$newNamaFile);
 
+        //change the password here...
+        if ($request->password2) {
+          $password = $request->password;
+          $passwordbaru1 = $request->password1;
+          $passwordbaru2 = $request->password2;
+          if ($passwordbaru1 == $passwordbaru2) {
+                  //ganti password here
+                  $request->user()->fill(['password'=>Hash::make($passwordbaru1)])->save();
+            }
+            else {
+              return Redirect::back()->withErrors(['Password baru tidak sama', 'Kredensial anda salah']);
+            }
+        }
+
         //update db
         $users = Auth::user();
         $users->email = strip_tags(Input::get('email'));
@@ -79,6 +94,19 @@ class authController extends Controller
     } else {
       //update db without poto profile
       //update db
+      //change the password here...
+      if ($request->password2) {
+        $password = $request->password;
+        $passwordbaru1 = $request->password1;
+        $passwordbaru2 = $request->password2;
+        if ($passwordbaru1 == $passwordbaru2) {
+                //ganti password here
+                $request->user()->fill(['password'=>Hash::make($passwordbaru1)])->save();
+          }
+          else {
+            return Redirect::back()->withErrors(['Password baru tidak sama', 'Kredensial anda salah']);
+          }
+      }
       $users = Auth::user();
       $users->email = strip_tags(Input::get('email'));
       $users->nama = strip_tags(Input::get('nama'));

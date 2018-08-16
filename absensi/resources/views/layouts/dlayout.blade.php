@@ -54,7 +54,7 @@
                     <div class="user-box">
                         <div class="user-img">
                           @if (Auth::User()->avatar != null || Auth::User()->avatar != "")
-                            <img src="{{Auth::User()->avatar}}" alt="user-img" class="rounded-circle img-fluid">
+                            <img src="{{ asset(Auth::User()->avatar)}}" alt="user-img" class="rounded-circle img-fluid">
                           @else
                             <img src="http://via.placeholder.com/128x128" alt="user-img" class="rounded-circle img-fluid">
                           @endif
@@ -109,7 +109,7 @@
                                 <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="false" aria-expanded="false">
                                    @if (Auth::User()->avatar != null || Auth::User()->avatar != "")
-                                     <img src="{{Auth::User()->avatar}}" alt="user" class="rounded-circle"> <span class="ml-1">{{Auth::User()->nama}}<i class="mdi mdi-chevron-down"></i> </span>
+                                     <img src="{{ asset(Auth::User()->avatar)}}" alt="user" class="rounded-circle"> <span class="ml-1">{{Auth::User()->nama}}<i class="mdi mdi-chevron-down"></i> </span>
                                    @else
                                      <img src="http://via.placeholder.com/128x128" alt="user" class="rounded-circle"> <span class="ml-1">{{Auth::User()->nama}}<i class="mdi mdi-chevron-down"></i> </span>
                                    @endif

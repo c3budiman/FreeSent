@@ -36,7 +36,6 @@
                               <th >Waktu Absen</th>
                               <th >Waktu Logout</th>
                               <th >Durasi Pekerjaan</th>
-                              <th >Action</th>
                             </tr>
                           </thead>
 
@@ -49,7 +48,6 @@
                                   <td>{{$res->waktu_absen}}</td>
                                   <td>{{$res->waktu_logout}}</td>
                                   <td>{{$res->durasi_pekerjaan}}</td>
-                                  <td>Tombol Aksi</td>
                                 </tr>
                               @endforeach
                           </table>
@@ -66,7 +64,12 @@
                               $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
                               $jumlah = $time_seconds + $jumlah;
                             }
-                            $total_waktu = gmdate('H:i:s', $jumlah);
+                            $hours = floor($jumlah / 3600);
+                            $minutes = floor(($jumlah / 60) % 60);
+                            $seconds = $jumlah % 60;
+
+                            $total_waktu = "$hours:$minutes:$seconds";
+                            //$total_waktu = gmdate('H:i:s', $jumlah);
                             @endphp
                               <input disabled type="text" class="form-control" value="{{$total_waktu}}">
                           </div>
@@ -83,7 +86,6 @@
                                 <th >Waktu Absen</th>
                                 <th >Waktu Logout</th>
                                 <th >Durasi Pekerjaan</th>
-                                <th >Action</th>
                               </tr>
                             </thead>
                             <tr>

@@ -14,6 +14,8 @@
     <link href="../plugins/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" />
     <link href="../plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../plugins/switchery/switchery.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
@@ -33,6 +35,25 @@
                       <form action="{{url(action('manajerController2@postPresensiRange'))}}" method="post">
                       {{-- <form class="" action="" method="get"> --}}
                         {{ csrf_field() }}
+                        @php
+                          use App\karyawanList;
+                          $karyawanlist = karyawanList::with('karyawannya')->where('id_manajer','=',Auth::User()->id)->get();
+                        @endphp
+                        <div class="form-group row">
+                          <label class="col-2 col-form-label">Karyawan : </label>
+                          <div class="col-10">
+                            <select name="id_karyawan" class="form-control select2 js-example-basic-single">
+                              <option value="all">Semua Karyawan</option>
+                              @foreach ($karyawanlist as $karyawan)
+                                @php
+                                  $user = DB::table('users')->where('id','=',$karyawan->id_karyawan)->get()->first();
+                                @endphp
+                                <option value="{{$karyawan->id_karyawan}}">{{$user->nama}} | {{$user->email}}</option>
+                              @endforeach
+                              </select>
+                          </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-2 col-form-label">Tanggal Mulai : </label>
                             <div class="col-10">
@@ -67,9 +88,12 @@
   <script src="../plugins/bootstrap-maxlength/bootstrap-maxlength.js" type="text/javascript"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.0.3/css/buttons.dataTables.min.css">
   <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
   <script type="text/javascript">
-
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
   </script>
 
   <!-- Init Js file -->

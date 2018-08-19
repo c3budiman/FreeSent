@@ -23,6 +23,7 @@ use Carbon\Carbon;
 use App\DataTables\presensiDataTable;
 use App\Events\dbEvent;
 use App\manajerSetting;
+use PDF;
 
 
 class manajerController extends Controller
@@ -161,6 +162,8 @@ class manajerController extends Controller
     $settingPresensi->save();
     return redirect('/settingpresensi')->with('status', 'Setting Berhasil Di Update!');
   }
+
+
 
 
 }

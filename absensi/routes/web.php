@@ -159,8 +159,8 @@ Route::post('karyawanregistrasi', 'manajerController@postKaryawanBaru');
 Route::get('karyawan/json', 'manajerController@karyawanDataTB')->name('karyawan/json');
 Route::post('karyawanregistrasiv2', 'manajerController@postKaryawanRegistered');
 Route::post('karyawan/delete', 'manajerController@deleteKaryawan');
-Route::get('presensi/range/{range1}/{range2}', 'manajerController2@getPresensiByRange');
-Route::post('presensi/range/{range1}/{range2}', 'manajerController2@postPresensiRange');
+Route::get('presensi/range/{range1}/{range2}/{id_karyawan}', 'manajerController2@getPresensiByRange');
+Route::post('presensi/range/{range1}/{range2}/{id_karyawan}', 'manajerController2@postPresensiRange');
 Route::get('presensi/range','manajerController2@range');
 Route::post('presensi/range', 'manajerController2@postPresensiRange');
 Route::resource('presensi', 'manajerController');
@@ -168,6 +168,7 @@ Route::post('presensi/delete', 'manajerController@DestoyPresensi');
 Route::get('settingpresensi', 'manajerController@getSettingPresensi');
 Route::post('settingpresensi', 'manajerController@newSettingPresensi');
 Route::put('settingpresensi', 'manajerController@updateSettingPresensi');
+Route::get('csv/{range1}/{range2}/{id_karyawan}', 'manajerController2@pdfrekap');
 
 
 /*
